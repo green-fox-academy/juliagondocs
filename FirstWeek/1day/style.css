@@ -1,0 +1,76 @@
+body{
+    background: url( "topography.png");
+}
+
+h1 {
+    color: black;
+    font-size:60px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+h2{
+    color: magenta;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+h3 {
+    color: black;
+    font-size:20px;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.wiki{
+    color: black;
+    font-size:40px;
+    padding-left: 10%;
+    padding-right: 10%;  
+    text-align: center;
+}
+
+.navigation-bar {
+    width: 100%;  /* i'm assuming full width */
+    height: 40px; /* change it to desired width */
+    background-color: #333333; /* change to desired color */
+}
+.navigation-bar >svg {
+    display: inline-block;
+    vertical-align: top;
+    width:30px;
+    height:30px;
+    margin:5px 20px 5px 40px;
+    }
+
+.navigation-bar > a {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    padding-top: 7px;
+    color:#ff0099;
+    float:right;
+    font-family: consolas;
+}
+
+.dots {
+    text-shadow: 0px 0px 4px blue;
+    color:white;
+    float: left;
+    position: relative;
+    left: 50%;
+  }
+
+.fixer {
+    float: left;
+    position: relative;
+    left: -50%;
+  }
+
+p{
+    font-family: courier;
+    line-height: 25px;
+    text-align: justify;
+    padding-left: 10%;
+    padding-right: 10%;
+}

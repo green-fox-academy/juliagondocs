@@ -9,7 +9,7 @@ public class Arrays {
         for (int i = 0; i < myList.length; i++) {
             System.out.println(myList[i] + " ");
         }
-        
+
     }
 }
 

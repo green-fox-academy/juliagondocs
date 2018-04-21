@@ -13,7 +13,7 @@ public class CodingHours {
         // Print how many hours is spent with coding in a semester by an attendee,
         // if the attendee only codes on workdays.
         int sum_hours_coding;
-        int work_days=5;
+        int work_days = 5;
         sum_hours_coding = weeks * work_days * 6;
         System.out.println(sum_hours_coding);
         //
@@ -23,6 +23,6 @@ public class CodingHours {
         sum_hours_weekly = weeks * 52;
         System.out.println(sum_hours_weekly);
 
-        System.out.println((sum_hours_coding/(float)sum_hours_weekly)*100);
+        System.out.println((sum_hours_coding / (float) sum_hours_weekly) * 100);
     }
 }

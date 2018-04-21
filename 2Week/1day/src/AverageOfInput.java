@@ -13,10 +13,10 @@ public class AverageOfInput {
         int n4 = scanner.nextInt();
         int n5 = scanner.nextInt();
 
-        double sum = n1+n2+n3+n4+n5;
-        double average = n1+n2+n3+n4+n5/ 5.;
+        double sum = n1 + n2 + n3 + n4 + n5;
+        double average = n1 + n2 + n3 + n4 + n5 / 5.;
 
-        System.out.println( "Average : " + average + ", Sum: " + sum);
+        System.out.println("Average : " + average + ", Sum: " + sum);
 
     }
 }

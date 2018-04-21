@@ -1,4 +1,5 @@
 // Loads the scanner to the file
+
 import java.util.Scanner;
 
 public class UserInput {

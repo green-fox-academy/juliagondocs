@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class MultiplicationTable {
-    public static void main ( String [] args ) {
+    public static void main(String[] args) {
         // Create a program that asks for a number and prints the multiplication table with that number
         //
         // Example:
@@ -21,9 +21,9 @@ public class MultiplicationTable {
         int userInput1 = scanner.nextInt();
 
         int a = 0;
-        while ( a < 11) {
-            System.out.println(a + " * " + userInput1 + " = " + a*userInput1);
-            a+=1;
+        while (a < 11) {
+            System.out.println(a + " * " + userInput1 + " = " + a * userInput1);
+            a += 1;
         }
     }
 }

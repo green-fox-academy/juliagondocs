@@ -20,8 +20,14 @@ public class Candyshop {
         // Expected output: "Cupcake", "Croissant", "Brownie", "Ice cream"
     }
 
-    public static void sweets(ArrayList arraylist) {
-        arraylist.set(1, "Croissant");
-        arraylist.set(3, "Ice cream");
+    public static ArrayList<Object> sweets(ArrayList<Object> arrayList) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i) instanceof Boolean) {
+                arrayList.set(i, "Ice Cream");
+            } else if (arrayList.get(i) instanceof Integer) {
+                arrayList.set(i, "Croissant");
+            }
+        }
+        return arrayList;
     }
 }

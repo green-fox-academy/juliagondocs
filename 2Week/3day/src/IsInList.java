@@ -12,13 +12,13 @@ public class IsInList {
     }
 
     public static boolean checkNums(ArrayList list) {
-        boolean van = false;
+        boolean exists = false;
         ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(4, 8, 12, 16));
         if (list.containsAll(numbers)) {
-            van = true;
+            exists = true;
         } else {
-            van = false;
+            exists = false;
         }
-        return van;
+        return exists;
     }
 }

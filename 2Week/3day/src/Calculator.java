@@ -23,31 +23,32 @@ public class Calculator {
         Scanner scanner = new Scanner(System.in);
         String s = scanner.nextLine();
         String array[] = s.split(" ");
+        if (array.length == 3) {
+            String operation = array[0];
+            int part1 = Integer.parseInt(array[1]);
+            int part2 = Integer.parseInt(array[2]);
+            System.out.println(operation + " " + part1 + " " + part2);
 
-        String operation = array[0];
-        int part1 = Integer.parseInt(array[1]);
-        int part2 = Integer.parseInt(array[2]);
-        System.out.println(operation + " " + part1 + " " + part2);
-
-        System.out.println("Result: " + calculate(operation, part1, part2));
+            System.out.println("Result: " + calculate(operation, part1, part2));
+        } else {
+            System.out.println(" Wrong input !");
+        }
     }
 
     public static double calculate(String operation, int operand1, int operand2) {
         double result = 0;
-        if (operation.equals("+")) {
-            result = (double) operand1 + (double) operand2;
-        }
-        if (operation.equals("-")) {
-            result = (double) operand1 - (double) operand2;
-        }
-        if (operation.equals("*")) {
-            result = (double) operand1 * (double) operand2;
-        }
-        if (operation.equals("/")) {
-            result = (double) operand1 / (double) operand2;
-        }
-        if (operation.equals("%")) {
-            result = (double) operand1 % (double) operand2;
+        if (operation instanceof String) {
+            if (operation.equals("+")) {
+                result = (double) operand1 + (double) operand2;
+            } else if (operation.equals("-")) {
+                result = (double) operand1 - (double) operand2;
+            } else if (operation.equals("*")) {
+                result = (double) operand1 * (double) operand2;
+            } else if (operation.equals("/")) {
+                result = (double) operand1 / (double) operand2;
+            } else if (operation.equals("%")) {
+                result = (double) operand1 % (double) operand2;
+            }
         }
         return result;
     }

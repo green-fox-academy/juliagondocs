@@ -6,7 +6,7 @@ public class AppendLetter {
         // Create a method called "appendA()" that adds "a" to every string in the "far" list.
         // The parameter should be a list.
         appendA(far);
-        for (Object currentMatch : far) {
+        for (String currentMatch : far) {
             System.out.print(currentMatch + " ");
         }
     }

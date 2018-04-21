@@ -13,10 +13,10 @@ public class Matchmaking {
     }
 
     public static void makingMatches(ArrayList lanyok, ArrayList fiuk) {
-        Object[] matched = new Object[lanyok.size() * 2];
+        String[] matched = new String[lanyok.size() * 2];
         for (int i = 0; i < lanyok.size(); i++) { // girls contains less elements
-            matched[i * 2] = lanyok.get(i);
-            matched[i * 2 + 1] = fiuk.get(i);
+            matched[i * 2] = (String) lanyok.get(i);
+            matched[i * 2 + 1] = (String) fiuk.get(i);
         }
         for (Object currentMatch : matched) {
             System.out.print(currentMatch + " ");

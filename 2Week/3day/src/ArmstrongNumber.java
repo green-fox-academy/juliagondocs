@@ -5,7 +5,7 @@ public class ArmstrongNumber {
         Scanner scanner = new Scanner(System.in);
         String inputNumber = scanner.nextLine();
         int inputNumberAsInt = Integer.parseInt(inputNumber);
-        
+
         String[] inputStringArray = inputNumber.split("");
         int[] inputIntegerArray = new int[inputStringArray.length];
         for (int i = 0; i < inputStringArray.length; i++) {

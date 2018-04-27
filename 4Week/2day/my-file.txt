@@ -1,0 +1,6 @@
+Path Operations
+The Path class includes various methods that can be used to obtain information about the path, 
+access elements of the path, convert the path to other forms, or extract portions of a path. 
+There are also methods for matching the path string and methods for removing redundancies in a path. 
+This lesson addresses these Path methods, sometimes called syntactic operations, 
+because they operate on the path itself and don't access the file system.

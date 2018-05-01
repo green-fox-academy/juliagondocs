@@ -1,9 +1,9 @@
 import java.io.IOException;
-        import java.nio.file.Files;
-        import java.nio.file.Path;
-        import java.nio.file.Paths;
-        import java.util.ArrayList;
-        import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Doubled {
@@ -18,17 +18,20 @@ public class Doubled {
         } catch (IOException e) {
             System.out.println("No such file or directory");
         }
-        System.out.println(decrypt(lines));
+        ArrayList<String> result = decrypt(lines);
+        for (String element: result  ) {
+            System.out.println(element);
+            System.out.println();
+        }
+        //System.out.println(decrypt(lines));
     }
 
     public static ArrayList<String> decrypt(List<String> wrongText) {
         ArrayList<String> correctText = new ArrayList<>();
-        String row = "";
         for (int i = 0; i < wrongText.size(); i++) {
-            String[] line = new String[wrongText.get(i).toString().length()];
-            for (int j = 0; j < wrongText.get(i).toString().length(); j++) {
-                line = wrongText.get(i).split("");
-            }
+            String row = "";
+            String[] line;
+            line = wrongText.get(i).split("");
             for (int j = 0; j < line.length; j += 2) {
                 row += line[j];
             }

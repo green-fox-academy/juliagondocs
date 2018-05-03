@@ -12,16 +12,15 @@ public class Counter {
         this.initialValue = count;
     }
 
-    public int add(int input) {
+    public void add(int input) {
         this.count += input;
-        return this.count;
     }
 
     public void add() {
         this.count += 1;
     }
 
-    public int getV() {
+    public int get() {
         return count;
     }
 
@@ -31,12 +30,10 @@ public class Counter {
 
     public static void main(String[] args) {
         Counter number = new Counter();
-        System.out.println(number.getV());
-        System.out.println(number.add(10));
+        System.out.println(number.get());
 
         Counter number1 = new Counter(50);
-        System.out.println(number1.getV());
-        System.out.println(number1.add(10));
+        System.out.println(number1.get());
     }
 
 }

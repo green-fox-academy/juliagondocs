@@ -14,7 +14,7 @@ public class Sharpie {
     }
 
     public static void main(String[] args) {
-        Sharpie littleSharpie = new Sharpie("brown", 23000);
+        Sharpie littleSharpie = new Sharpie("brown", 20);
         System.out.println(littleSharpie.inkAmount);
         littleSharpie.use();
         System.out.println(littleSharpie.inkAmount);

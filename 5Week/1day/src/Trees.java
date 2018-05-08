@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Trees {
     public static void main(String[] args) {
 
-        ArrayList<Object> trees=new ArrayList<Object>();
+        ArrayList<Object> trees = new ArrayList<Object>();
         String treeType = "oak";
         String leafColor = " brown";
         int treeAge = 12;

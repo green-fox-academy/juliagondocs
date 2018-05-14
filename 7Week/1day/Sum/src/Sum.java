@@ -8,7 +8,7 @@ public class Sum {
     }
 
 
-    public int sum(ArrayList<Integer> numbers) {
+    public static int sum(ArrayList<Integer> numbers) {
         if (numbers.size() > 0) {
             int sum = 0;
             for (int i = 0; i < numbers.size(); i++) {

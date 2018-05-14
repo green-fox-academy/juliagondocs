@@ -13,27 +13,27 @@ public class SumTest {
         numbersHere.add(1);
         numbersHere.add(2);
         numbersHere.add(3);
-        assertEquals(numbers.sum(numbersHere), 6);
+        assertEquals(Sum.sum(numbersHere), 6);
     }
 
     @Test
     public void sumTestWithEmptyList() {
         ArrayList<Integer> numbersHere = new ArrayList<>();
-        assertEquals(numbers.sum(numbersHere), 0);
+        assertEquals(Sum.sum(numbersHere), 0);
     }
 
     @Test
     public void sumTestWithOneElement() {
         ArrayList<Integer> numbersHere = new ArrayList<>();
         numbersHere.add(1);
-        assertEquals(numbers.sum(numbersHere), 1);
+        assertEquals(Sum.sum(numbersHere), 1);
     }
 
     @Test
     public void sumTestWithNull() {
         ArrayList<Integer> numbersHere = new ArrayList<>();
         numbersHere.add(null);
-        assertEquals(numbers.sum(numbersHere), null);
+        assertEquals(Sum.sum(numbersHere), null);
     }
 
 }

@@ -21,6 +21,7 @@ public class Board extends JComponent implements KeyListener {
     public static int[][] map;
     private static String heroDirection = "hero-down";
     List<int[]> validPositionsInThePast = new ArrayList<>();
+    static Table field = new Table();
 
     public Board() {
         testBoxX = 0;
@@ -35,41 +36,18 @@ public class Board extends JComponent implements KeyListener {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
-        drawTable(graphics);
-        drawHero(graphics);
+        field.drawTilePlan(graphics);
+        field.drawCharacterPlan(graphics);
+        repaint();
+
+        //super.paint(graphics);
+        //drawTable(graphics);
+        //drawHero(graphics);
 
     }
 
     private void drawHero(Graphics graphics) {
-        validPositionsInThePast.add(new int[]{testBoxY / SIZE_OF_TILE, testBoxX / SIZE_OF_TILE});
-        for (int[] current : validPositionsInThePast) {
-            System.out.println(current[0] + " " + current[1]);
-        }
-
-        PositionedImage image;
-
-        if (map[testBoxY / SIZE_OF_TILE][testBoxX / SIZE_OF_TILE] == 0) { // nyil utani ertekem
-            int pasPostX = validPositionsInThePast.get(validPositionsInThePast.size() - 1)[1] * SIZE_OF_TILE;
-            int pasPostY = validPositionsInThePast.get(validPositionsInThePast.size() - 1)[0] * SIZE_OF_TILE;
-            image = new PositionedImage("img/" + heroDirection + ".png", pasPostX, pasPostY);
-            //refresh the testbox values, based on the differences between x and pasX or y and pasY
-            if (testBoxY > pasPostY) {
-                testBoxY -= 72;
-            }
-            if (testBoxY < pasPostY) {
-                testBoxY += 72;
-            }
-            if (testBoxX > pasPostX) {
-                testBoxX -= 72;
-            }
-            if (testBoxX < pasPostX) {
-                testBoxX += 72;
-            }
-
-            validPositionsInThePast.remove(validPositionsInThePast.size()-1); // az utolso nem valid indexet, azt tavolitsuk el
-        } else {
-            image = new PositionedImage("img/" + heroDirection + ".png", testBoxX, testBoxY);
-        }
+        PositionedImage image = new PositionedImage("img/" + heroDirection + ".png", testBoxX, testBoxY);
 
         System.out.println("jelenlegi helyzetem:" + (int) testBoxX / SIZE_OF_TILE + " " + (int) testBoxY / SIZE_OF_TILE);
         System.out.println("terkep: " + map[testBoxY / SIZE_OF_TILE][testBoxX / SIZE_OF_TILE]);
@@ -90,25 +68,12 @@ public class Board extends JComponent implements KeyListener {
         }
     }
 
-    public GameObject[][] indexBoard() {
-        GameObject[][] coordList = new GameObject[MAP_WIDTH][MAP_HEIGHT];
-        for (int i = 0; i < MAP_WIDTH; i++) {
-            for (int j = 0; j < MAP_HEIGHT; j++) {
-                if (map[j][i] == 0) {
-                    Wall wall = new Wall();
-                    coordList[j][i] = wall;
-                } else if (map[j][i] == 1){
-                    Floor floor = new Floor();
-                    coordList [j][i] = floor;
-                }
-            }
-        }
-        return coordList;
-    }
 
     public static void main(String[] args) {
-        map = createMap(MAP_HEIGHT, MAP_WIDTH);
+        //Table table = new Table();
+        //map = table.createMap(MAP_HEIGHT, MAP_WIDTH);
         setupGamePanel();
+        System.out.println(field.getSkeletonNumberWithKey());
     }
 
 
@@ -123,24 +88,39 @@ public class Board extends JComponent implements KeyListener {
 
     }
 
-    // But actually we can use just this one for our goals here
+
     @Override
     public void keyReleased(KeyEvent e) {
         // When the up or down keys hit, we change the position of our box
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            testBoxY -= SIZE_OF_TILE;
-            heroDirection = "hero-up";
+            field.moveCharacterUp(field.findCharacter("Hero").get(0));
+            System.out.print("Lépés utani kiiratas: ");
+            field.findCharacter("Hero");
+            field.randomMovementGenerator(field.findCharacter("Boss"));
+            field.randomMovementGenerator(field.findCharacter("Skeleton"));
+
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            testBoxY += SIZE_OF_TILE;
-            heroDirection = "hero-down";
+            field.moveCharacterDown(field.findCharacter("Hero").get(0));
+            System.out.print("Lépés utani kiiratas: ");
+            field.findCharacter("Hero");
+            field.randomMovementGenerator(field.findCharacter("Boss"));
+            field.randomMovementGenerator(field.findCharacter("Skeleton"));
+
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            testBoxX -= SIZE_OF_TILE;
-            heroDirection = "hero-left";
+            field.moveCharacterLeft(field.findCharacter("Hero").get(0));
+            System.out.print("Lépés utani kiiratas: ");
+            field.findCharacter("Hero");
+            field.randomMovementGenerator(field.findCharacter("Boss"));
+            field.randomMovementGenerator(field.findCharacter("Skeleton"));
+
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            testBoxX += SIZE_OF_TILE;
-            heroDirection = "hero-right";
+            field.moveCharacterRight(field.findCharacter("Hero").get(0));
+            System.out.print("Lépés utani kiiratas: ");
+            field.findCharacter("Hero");
+            field.randomMovementGenerator(field.findCharacter("Boss"));
+            field.randomMovementGenerator(field.findCharacter("Skeleton"));
+
         }
-        // and redraw to have a new picture with the new coordinates
         repaint();
     }
 
@@ -155,22 +135,5 @@ public class Board extends JComponent implements KeyListener {
         frame.addKeyListener(board);
     }
 
-    private static int[][] createMap(int mapWidth, int mapHeight) {
-        int[][] map = new int[mapHeight][mapWidth];
-        Path path = Paths.get("level0.txt");
-        List<String> lines = null;
-        try {
-            lines = Files.readAllLines(path);
-        } catch (IOException e) {
-            System.out.println("No such file or directory");
-        }
 
-        for (int i = 0; i < mapHeight; i++) {
-            String array[] = lines.get(i).split(" ");
-            for (int j = 0; j < mapWidth; j++) {
-                map[i][j] = Integer.valueOf(array[j]);
-            }
-        }
-        return map;
-    }
 }

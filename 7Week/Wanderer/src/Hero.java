@@ -3,6 +3,7 @@ public class Hero extends Character {
     static int heroLevel;
 
     public Hero() {
-        super( 20 + 3 * d6(),2 * d6(), 5 + d6());
+        super("img/hero-down.png" ,20 + 3 * d6(),2 * d6(), 5 + d6());
+        this.heroLevel =0;
     }
 }

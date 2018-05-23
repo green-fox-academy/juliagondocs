@@ -1,10 +1,5 @@
 public class GameObject {
-
-
     String filePath;
-
-    public GameObject() {
-    }
 
     public GameObject(String filePath) {
         this.filePath = filePath;
@@ -27,8 +22,5 @@ public class GameObject {
     public void moveUp() {
         setFilePath("img/hero-up.png");
     }
-
-    public void setKey() {  Skeleton.hasKey = true; }
-
 
 }

@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,8 +10,14 @@ import java.util.List;
 public class Table {
 
     int size;
+    boolean isWar = false;
+    boolean isWarBetweenHeroAndOther;
+    boolean isWarWithBoss = false;
     private GameObject[][] tileLocationMatrix = readPlan("level" + Hero.heroLevel + ".txt");
     private GameObject[][] characterAndTileLocationMatrix = readPlan("level" + Hero.heroLevel + "_char.txt");
+    Character attacker;
+    Character defenser;
+
 
     public Table() {
         this.size = 72;
@@ -30,9 +37,11 @@ public class Table {
             for (int j = 0; j < content.get(i).length(); j++) {
                 if (content.get(i).charAt(j) == 'h') {
                     Hero hero = new Hero();
+                    System.out.println(hero.getCurrentHP());
                     coordList[i][j] = hero;
                 } else if (content.get(i).charAt(j) == 'b') {
                     Boss boss = new Boss();
+                    System.out.println(boss.getCurrentHP());
                     coordList[i][j] = boss;
                 } else if (content.get(i).charAt(j) == 's') {
                     Skeleton skeleton = new Skeleton();
@@ -41,6 +50,7 @@ public class Table {
                     characterCoordinates[0] = i;
                     characterCoordinates[1] = j;
                     skeletons.add(characterCoordinates);
+                    System.out.println("Ennyi skeletonom van: " + skeletons.size());
                 } else if (content.get(i).charAt(j) == '0') {
                     Wall wall = new Wall();
                     coordList[i][j] = wall;
@@ -52,9 +62,24 @@ public class Table {
         }
         if (!skeletons.isEmpty()) {
             int chance = (int) Math.random() * skeletons.size();
-            coordList[skeletons.get(chance)[0]][skeletons.get(chance)[1]].setKey();
+            ((Skeleton) coordList[skeletons.get(chance)[0]][skeletons.get(chance)[1]]).setHasKey();
         }
         return coordList;
+    }
+
+    public int numberOfAliveCharacters() {
+        // Hany elo babum van eletben
+        int countAliveCharacters = 0;
+        for (int i = 0; i < characterAndTileLocationMatrix.length; i++) {
+            for (int j = 0; j < characterAndTileLocationMatrix[i].length; j++) {
+                if (characterAndTileLocationMatrix[i][j] instanceof Character) {
+                    if (((Character) characterAndTileLocationMatrix[i][j]).isAlive()) {
+                        countAliveCharacters += 1;
+                    }
+                }
+            }
+        }
+        return countAliveCharacters;
     }
 
     public void drawTilePlan(Graphics g) {
@@ -66,6 +91,44 @@ public class Table {
                 }
             }
         }
+    }
+
+    public void drawInfoTableBoss(Graphics g) {
+        int xx = findCharacter("Boss").get(0)[0];
+        int yy = findCharacter("Boss").get(0)[1];
+        String info = (characterAndTileLocationMatrix[xx][yy] instanceof Boss ? "Boss HP: " + characterAndTileLocationMatrix[xx][yy].toString() : "semmi");
+        Color textColor = Color.WHITE;
+        Color bgColor = Color.BLACK;
+        int x = 100;
+        int y = 40;
+
+        FontMetrics fm = g.getFontMetrics();
+        Rectangle2D rect = fm.getStringBounds(info, g);
+
+        g.setColor(bgColor);
+        g.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+
+        g.setColor(textColor);
+        g.drawString(info, x, y);
+    }
+
+    public void drawInfoHero(Graphics g) {
+        int xx = findCharacter("Hero").get(0)[0];
+        int yy = findCharacter("Hero").get(0)[1];
+        String info = (characterAndTileLocationMatrix[xx][yy] instanceof Hero ? "Hero HP: " + characterAndTileLocationMatrix[xx][yy].toString() : "semmi");
+        Color textColor = Color.WHITE;
+        Color bgColor = Color.BLACK;
+        int x = 100;
+        int y = 20;
+
+        FontMetrics fm = g.getFontMetrics();
+        Rectangle2D rect = fm.getStringBounds(info, g);
+
+        g.setColor(bgColor);
+        g.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+
+        g.setColor(textColor);
+        g.drawString(info, x, y);
     }
 
     public void drawCharacterPlan(Graphics g) {
@@ -101,9 +164,9 @@ public class Table {
                 }
             }
         }
-        if (!coordinates.isEmpty()) {
-            System.out.println(coordinates.get(0)[0] + " " + coordinates.get(0)[1]);
-        }
+        //if (!coordinates.isEmpty()) {
+        //    System.out.println(coordinates.get(0)[0] + " " + coordinates.get(0)[1]);
+        //}
         return coordinates;
     }
 
@@ -131,6 +194,7 @@ public class Table {
     }
 
     public void moveCharacterRight(int[] startCoordinates) {
+        setToFalseWars();
         if (startCoordinates[1] != characterAndTileLocationMatrix[0].length - 1) {
             if (!(characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] + 1] instanceof Wall)) {
                 if (!(characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] + 1] instanceof Character)) {
@@ -142,8 +206,18 @@ public class Table {
                         Hero.heroStep++;
                         characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] + 1].moveRight();
                     }
-                } else {
-                    //attack battle(startCoordinates, startCoordinates[0]][startCoordinates[1] + 1);
+                } else if ((characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]] instanceof Hero)) {
+                    isWar = true;
+
+                    if (characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] + 1] instanceof Boss) {
+                        isWarWithBoss = true;
+                    }
+                    if (characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] + 1] instanceof Boss ||
+                            characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] + 1] instanceof Skeleton) {
+                        attacker = (Character) characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]]; // hero
+                        defenser = (Character) characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] + 1]; //attacker
+                        isWarBetweenHeroAndOther = true;
+                    }
                 }
             } else if (!(characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]] instanceof Hero)) {
                 moveAgain(startCoordinates);
@@ -152,6 +226,7 @@ public class Table {
     }
 
     public void moveCharacterLeft(int[] startCoordinates) {
+        setToFalseWars();
         if (startCoordinates[1] != 0) {
             if (!(characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] - 1] instanceof Wall)) {
                 if (!(characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] - 1] instanceof Character)) {
@@ -163,8 +238,17 @@ public class Table {
                         Hero.heroStep++;
                         characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] - 1].moveLeft();
                     }
-                } else {
-                    //attack
+                } else if ((characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]] instanceof Hero)) {
+                    isWar = true;
+                    if (characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] - 1] instanceof Boss) {
+                        isWarWithBoss = true;
+                    }
+                    if (characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] - 1] instanceof Boss ||
+                            characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] - 1] instanceof Skeleton) {
+                        attacker = (Character) characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]];
+                        defenser = (Character) characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1] - 1];
+                        isWarBetweenHeroAndOther = true;
+                    }
                 }
             } else if (!(characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]] instanceof Hero)) {
                 moveAgain(startCoordinates);
@@ -173,6 +257,7 @@ public class Table {
     }
 
     public void moveCharacterDown(int[] startCoordinates) {
+        setToFalseWars();
         if (startCoordinates[0] != characterAndTileLocationMatrix.length - 1) {
             if (!(characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]] instanceof Wall)) {
                 if (!(characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]] instanceof Character)) {
@@ -184,10 +269,17 @@ public class Table {
                         Hero.heroStep++;
                         characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]].moveDown();
                     }
-                } else if (characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]] instanceof Skeleton) {
-                    System.out.println("Van elottem valami:  I will kill you Skeleton");
-                } else if (characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]] instanceof Boss) {
-                    System.out.println("Van elottem valami: I will kill you Boss");
+                } else if ((characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]] instanceof Hero)) {
+                    isWar = true;
+                    if (characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]] instanceof Boss) {
+                        isWarWithBoss = true;
+                    }
+                    if (characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]] instanceof Boss ||
+                            characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]] instanceof Skeleton) {
+                        attacker = (Character) characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]];
+                        defenser = (Character) characterAndTileLocationMatrix[startCoordinates[0] + 1][startCoordinates[1]];
+                        isWarBetweenHeroAndOther = true;
+                    }
                 }
             } else if (!(characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]] instanceof Hero)) {
                 moveAgain(startCoordinates);
@@ -196,6 +288,7 @@ public class Table {
     }
 
     public void moveCharacterUp(int[] startCoordinates) {
+        setToFalseWars();
         if (startCoordinates[0] != 0) {
             if (!(characterAndTileLocationMatrix[startCoordinates[0] - 1][startCoordinates[1]] instanceof Wall)) {
                 if (!(characterAndTileLocationMatrix[startCoordinates[0] - 1][startCoordinates[1]] instanceof Character)) {
@@ -207,8 +300,17 @@ public class Table {
                         Hero.heroStep++;
                         characterAndTileLocationMatrix[startCoordinates[0] - 1][startCoordinates[1]].moveUp();
                     }
-                } else {
-                    //attack
+                } else if ((characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]] instanceof Hero)) {
+                    isWar = true;
+                    if (characterAndTileLocationMatrix[startCoordinates[0] - 1][startCoordinates[1]] instanceof Boss) {
+                        isWarWithBoss = true;
+                    }
+                    if (characterAndTileLocationMatrix[startCoordinates[0] - 1][startCoordinates[1]] instanceof Boss ||
+                            characterAndTileLocationMatrix[startCoordinates[0] - 1][startCoordinates[1]] instanceof Skeleton) {
+                        attacker = (Character) characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]];
+                        defenser = (Character) characterAndTileLocationMatrix[startCoordinates[0] - 1][startCoordinates[1]];
+                        isWarBetweenHeroAndOther = true;
+                    }
                 }
             } else if (!(characterAndTileLocationMatrix[startCoordinates[0]][startCoordinates[1]] instanceof Hero)) {
                 moveAgain(startCoordinates);
@@ -216,17 +318,15 @@ public class Table {
         }
     }
 
-    public int getSkeletonNumberWithKey() {
-        int skeletonWithKey = 0;
-        for (int i = 0; i < characterAndTileLocationMatrix.length; i++) {
-            for (int j = 0; j < characterAndTileLocationMatrix[0].length; j++) {
-                if(characterAndTileLocationMatrix[i][j] instanceof Skeleton ) {
-//                    if (characterAndTileLocationMatrix[i][j].getKey() == true ) {
-//                        skeletonWithKey +=1;
-//                    };
-                }
-            }
-        }
-        return skeletonWithKey;
+    public void setToFalseWars() {
+        isWar = false;
+        isWarWithBoss = false;
+        isWarBetweenHeroAndOther = false;
+        attacker = null;
+        defenser= null;
+    }
+
+    public void dissmissCharachterFromBoard() {
+
     }
 }

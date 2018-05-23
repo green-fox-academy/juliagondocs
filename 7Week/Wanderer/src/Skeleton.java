@@ -7,7 +7,8 @@ public class Skeleton extends Character {
         hasKey = false;
     }
 
-    public boolean getKey () {
-        return hasKey;
+    public void setHasKey() {
+        hasKey=true;
     }
+
 }

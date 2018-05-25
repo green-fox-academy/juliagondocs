@@ -13,17 +13,20 @@ public class Table {
     boolean isWar = false;
     boolean isWarBetweenHeroAndOther;
     boolean isWarWithBoss = false;
-    private List<List<GameObject>> tileLocationMatrix = readPlan("level" + Hero.heroLevel + ".txt");
-    private List<List<GameObject>> characterAndTileLocationMatrix = readPlan("level" + Hero.heroLevel + "_char.txt");
+    private List<List<GameObject>> tileLocationMatrix ;//= readPlan("level" + Hero.heroLevel + ".txt");
+    private List<List<GameObject>> characterAndTileLocationMatrix ;//= readPlan("level" + Hero.heroLevel + "_char.txt");
     Character attacker;
     Character defenser;
     boolean gameOver;
-    boolean isLevelUp;
+    boolean isLevelUp = false;
 
 
     public Table() {
         this.size = 72;
-        Hero.setHeroLevel(Hero.getHeroLevel()+1);
+        Hero.heroLevel++;
+        isLevelUp = false;
+        tileLocationMatrix = readPlan("level" + Hero.heroLevel + ".txt");
+        characterAndTileLocationMatrix = readPlan("level" + Hero.heroLevel + "_char.txt");
     }
 
     public List<List<GameObject>> readPlan(String fileAccessPath) {
@@ -324,7 +327,7 @@ public class Table {
         characterAndTileLocationMatrix.get(stsc[0]).set(stsc[1], new Floor());
     }
 
-    public boolean checkForWin() {
+    public void checkForWin() {
         // megszamoljuk h miből hány van -> ha elérjük a kettőt, akkor true lesz a kimenet
         int count = 0;
         for (int i = 0; i < characterAndTileLocationMatrix.size(); i++) {
@@ -349,10 +352,25 @@ public class Table {
             }
         }
         if (count == 2) {
-            return false;
+            isLevelUp = false;
         } else if (count == 0) {
-            return true;
+            isLevelUp = true;
         }
-        return false;
+    }
+
+    public int skeletonsWithKey() {
+        // megszamoljuk h miből hány van -> ha elérjük a kettőt, akkor true lesz a kimenet
+        int count = 0;
+        for (int i = 0; i < characterAndTileLocationMatrix.size(); i++) {
+            for (int j = 0; j < characterAndTileLocationMatrix.get(1).size(); j++) {
+                if (characterAndTileLocationMatrix.get(i).get(j) instanceof Skeleton) {
+                    Skeleton skeleton = (Skeleton) characterAndTileLocationMatrix.get(i).get(j);
+                    if (skeleton.hasKey()) {
+                            count += 1;
+                    }
+                }
+            }
+        }
+        return count;
     }
 }

@@ -17,7 +17,7 @@ public class Board extends JComponent implements KeyListener {
     private static final int SIZE_OF_TILE = 72;
     public static int[][] map;
     private static String heroDirection = "hero-down";
-    static Table field = new Table();
+    Table field = new Table();
     private static int finalFontSize = 42;
     private static int fontSize = 12;
     private static String winningText = "YAY :)";
@@ -36,6 +36,7 @@ public class Board extends JComponent implements KeyListener {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
+        System.out.println("kulcsos skeleton: " + field.skeletonsWithKey());
         field.drawTilePlan(graphics);
         field.drawCharacterPlan(graphics);
         setFont(new Font("Arial", Font.BOLD, fontSize));
@@ -46,8 +47,8 @@ public class Board extends JComponent implements KeyListener {
         if (field.gameOver == true) {
            drawGameOver(graphics);
         }
-        System.out.println(Hero.getHeroLevel());
-        if(field.checkForWin()){
+
+        if(field.isLevelUp){
             Table field = new Table();
             System.out.println("You Win!! Level up");
         }
@@ -92,7 +93,7 @@ public class Board extends JComponent implements KeyListener {
                     field.gameOver = true;
                 }
             }
-
+            field.checkForWin();
         }
     }
 
@@ -153,4 +154,5 @@ public class Board extends JComponent implements KeyListener {
                 CANVAS_HEIGHT / 2 + finalFontSize / 2
         );
     }
+
 }

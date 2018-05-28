@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.sql.SQLOutput;
 
 
 public class Board extends JComponent implements KeyListener {
@@ -36,21 +35,30 @@ public class Board extends JComponent implements KeyListener {
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
-        System.out.println("kulcsos skeleton: " + field.skeletonsWithKey());
+
         field.drawTilePlan(graphics);
         field.drawCharacterPlan(graphics);
+
         setFont(new Font("Arial", Font.BOLD, fontSize));
         field.drawInfoHero(graphics);
+
         if (field.isWarWithBoss) {
             field.drawInfoTableBoss(graphics);
         }
-        if (field.gameOver == true) {
-           drawGameOver(graphics);
-        }
 
-        if(field.isLevelUp){
-            Table field = new Table();
-            System.out.println("You Win!! Level up");
+        if (field.gameOver == true) {
+            drawGameOver(graphics);
+        }
+        int count = 0;
+        if (field.isLevelUp) {
+            while (count <= 1) {
+                Hero hero = (Hero) field.returnHeroCharacter();
+                hero.setHeroLevel(Hero.heroLevel+1);
+                System.out.println("You Win!! Level up");
+                field.isLevelUp = false;
+                count+=1;
+                Table field = new Table();
+            }
         }
         repaint();
     }
@@ -143,12 +151,12 @@ public class Board extends JComponent implements KeyListener {
 
     public void drawGameOver(Graphics graphics) {
         graphics.setColor(new Color(255, 255, 255, 127));
-       graphics.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        graphics.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
         graphics.setColor(Color.darkGray);
         graphics.setFont(new Font("Arial", Font.BOLD, finalFontSize));
 
-        String finalText =  losingText;
+        String finalText = losingText;
         graphics.drawString(finalText,
                 CANVAS_WIDTH / 2 - finalText.length() * finalFontSize / 4,
                 CANVAS_HEIGHT / 2 + finalFontSize / 2

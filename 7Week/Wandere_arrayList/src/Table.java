@@ -13,8 +13,8 @@ public class Table {
     boolean isWar = false;
     boolean isWarBetweenHeroAndOther;
     boolean isWarWithBoss = false;
-    private List<List<GameObject>> tileLocationMatrix ;//= readPlan("level" + Hero.heroLevel + ".txt");
-    private List<List<GameObject>> characterAndTileLocationMatrix ;//= readPlan("level" + Hero.heroLevel + "_char.txt");
+    private List<List<GameObject>> tileLocationMatrix;//= readPlan("level" + Hero.heroLevel + ".txt");
+    private List<List<GameObject>> characterAndTileLocationMatrix;//= readPlan("level" + Hero.heroLevel + "_char.txt");
     Character attacker;
     Character defenser;
     boolean gameOver;
@@ -366,11 +366,15 @@ public class Table {
                 if (characterAndTileLocationMatrix.get(i).get(j) instanceof Skeleton) {
                     Skeleton skeleton = (Skeleton) characterAndTileLocationMatrix.get(i).get(j);
                     if (skeleton.hasKey()) {
-                            count += 1;
+                        count += 1;
                     }
                 }
             }
         }
         return count;
+    }
+
+    public Hero returnHeroCharacter () {
+        return (Hero) characterAndTileLocationMatrix.get(findCharacter("Hero").get(0)[0]).get(findCharacter("Hero").get(0)[1]);
     }
 }

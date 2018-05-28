@@ -1,9 +1,9 @@
 public class Hero extends Character {
     static int heroStep;
-    static int heroLevel = 0;
+    static int heroLevel = 1;
 
     public Hero() {
-        super("img/hero-down.png" ,20 + 3 * d6(),2 * d6(), 5 + d6());
+        super("img/hero-down.png", 20 + 3 * d6(), 2 * d6(), 5 + d6());
     }
 
     public static int getHeroStep() {
@@ -14,7 +14,7 @@ public class Hero extends Character {
         return heroLevel;
     }
 
-    public static void setHeroLevel(int heroLevel) {
+    public void setHeroLevel(int heroLevel) {
         Hero.heroLevel = heroLevel;
     }
 }

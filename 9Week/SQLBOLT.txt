@@ -1,30 +1,92 @@
-4.1: SELECT DISTINCT director FROM movies
+// http://sqlbolt.com/
+
+// Exercise 1 — Tasks
+/** Find the title of each film 
+* Find the director of each film 
+* Find the title and director of each film 
+* Find the title and year of each film 
+**/ Find all the information about each film 
+
+1.
+SELECT title FROM movies;
+2.
+SELECT Director FROM movies;
+3.
+SELECT Title, Director FROM movies;
+4.
+SELECT Title, Year FROM movies;
+5.
+SELECT * FROM movies;
+
+//---------------------------------------------------------//
+// Exercise 2 — Tasks
+/** Find the movie with a row id of 6
+* Find the movies released in the years between 2000 and 2010
+* Find the movies not released in the years between 2000 and
+* 2010
+**/ Find the first 5 Pixar movies and their release  year
+
+1.
+SELECT * FROM movies WHERE Id = 6; 
+1. alternative:
+SELECT * FROM movies WHERE Id IN (6);      
+2.
+SELECT * FROM movies WHERE Year BETWEEN 2000 AND 2010;
+3.
+SELECT * FROM movies WHERE Year NOT BETWEEN 2000 AND 2010;
+4.
+SELECT Title, Year FROM movies WHERE Id BETWEEN 1 AND 5;
+//---------------------------------------------------------//
+// Exercise 3 — Tasks
+/** Find all the Toy Story movies
+* Find all the movies directed by John Lasseter
+* Find all the movies (and director) not directed by John 
+* Lasseter
+**/ Find all the WALL-* movies
+
+1.
+SELECT * FROM movies WHERE Title LIKE "%Toy Story%";
+2.
+SELECT * FROM movies WHERE Director LIKE "%John Lasseter%"; 
+2. alternative (might not work with multiple directors for a movie)
+SELECT * FROM movies WHERE Director = "John Lasseter"; 
+3.
+SELECT * FROM movies WHERE Director NOT LIKE "John Lasseter";
+4.
+SELECT * FROM movies WHERE Title LIKE "Wall-%";
+
+//---------------------------------------------------------//
+
+5.1: SELECT DISTINCT director FROM movies
 ORDER BY director ASC;
-4.2: SELECT DISTINCT director FROM movies
+5.2: SELECT DISTINCT director FROM movies
 ORDER BY director ASC;
-4.3: SELECT title FROM movies
+5.3: SELECT title FROM movies
 ORDER BY title ASC
 LIMIT 5;
-4.4: SELECT title FROM movies
+5.4: SELECT title FROM movies
 ORDER BY title ASC
 LIMIT 5 OFFSET 5;
-4.2.1: SELECT city, population FROM north_american_cities
+
+//---------------------------------------------------------//
+6.1: SELECT city, population FROM north_american_cities
 WHERE country = "Canada";
-4.2.2: SELECT city, latitude FROM north_american_cities
+6.2: SELECT city, latitude FROM north_american_cities
 WHERE country = "United States"
 ORDER BY latitude DESC;
-4.2.3: SELECT city, longitude FROM north_american_cities
+6.3: SELECT city, longitude FROM north_american_cities
 WHERE longitude < -87.629798
 ORDER BY longitude ASC;
-4.2.4: SELECT city, population FROM north_american_cities
+6.4: SELECT city, population FROM north_american_cities
 WHERE country LIKE "Mexico"
 ORDER BY population DESC
 LIMIT 2;
-4.2.5: SELECT city,population FROM north_american_cities
+6.5: SELECT city,population FROM north_american_cities
 WHERE Country = "United States"
 ORDER BY population DESC
 LIMIT 2 OFFSET 2;
 
+//---------------------------------------------------------//
 Inner  join: 
 SELECT column, another_table_column, …
 FROM mytable
@@ -49,8 +111,7 @@ FROM movies
     ON movies.id = boxoffice.movie_id
 ORDER BY rating DESC;
 
-
-
+//---------------------------------------------------------//
 Outer Join: 
 SELECT column, another_column, …
 FROM mytable
@@ -75,6 +136,7 @@ WHERE column IS/IS NOT NULL
 AND/OR another_condition
 AND/OR …;
 
+//---------------------------------------------------------//
 12: Order odf executiron of a query:
 SELECT DISTINCT column, AGG_FUNC(column_or_expression), …
 FROM mytable
@@ -93,3 +155,121 @@ FROM mytable
 5: SELECT
 6: DITINCT
 7: ORDER BY
+
+//---------------------------------------------------------//
+Insert Data
+//A: Insert statement with values for all columns
+INSERT INTO mytable
+VALUES (value_or_expr, another_value_or_expr, …),
+       (value_or_expr_2, another_value_or_expr_2, …),
+       …;
+
+//B: Insert statement with specific columns
+INSERT INTO mytable
+(column, another_column, …)
+VALUES (value_or_expr, another_value_or_expr, …),
+      (value_or_expr_2, another_value_or_expr_2, …),
+      …;
+
+//C: Example Insert statement with expressions
+INSERT INTO boxoffice
+(movie_id, rating, sales_in_millions)
+VALUES (1, 9.9, 283742034 / 1000000);
+
+//---------------------------------------------------------//
+// Exercise 13 — Tasks
+/** Add the studio's new production, Toy Story 4 to the list of movies (you can use any director)
+* Toy Story 4 has been released to critical acclaim! It had a rating of 8.7, and made 340 million 
+**/ domestically and 270 million internationally. Add the record to the  BoxOffice table.
+
+1.
+INSERT INTO Movies (Title, Director, year)
+    VALUES ("Toy Story 4", "Josh Cooley", 2019);
+
+2.
+INSERT INTO Boxoffice (Movie_id, Rating, Domestic_sales, International_sales)
+    VALUES ("15", 8.7, 340000000, 270000000);
+INSERT INTO Boxoffice 
+    VALUES (4, "15", 8.7, 340000000, 270000000);
+
+//---------------------------------------------------------//
+UPDATING Rows
+// One helpful tip is to always write the constraint first and test it in a SELECT query 
+// to make sure you are updating the right rows, and only then writing the column/value pairs to update.
+//Update statement with values
+UPDATE mytable
+SET column = value_or_expr, 
+    other_column = another_value_or_expr, 
+    …
+WHERE condition;
+
+
+// Exercise 14 — Tasks
+/** The director for A Bug's Life is incorrect, it was actually directed by John Lasseter ?
+* The year that Toy Story 2 was released is incorrect, it was actually released in 1999
+**/ Both the title and directory for Toy Story 8 is incorrect! The title should be "Toy Story 3" and it was directed by Lee Unkrich
+
+1.
+UPDATE Movies 
+SET Director = "John Lasseter" WHERE Title = "A Bug's Life";
+
+2.
+UPDATE Movies 
+SET year = 1999 WHERE Title = "Toy Story 2";
+
+3.
+UPDATE Movies 
+SET Title = "Toy Story 3", Director = "Lee Unkrich" WHERE Title = "Toy Story 8";
+
+
+//---------------------------------------------------------//
+DELETING ROWS
+// Delete statement with condition
+DELETE FROM mytable
+WHERE condition;
+// it's recommended that you run the constraint in a 
+// SELECT query first to ensure that you are removing the right rows
+
+// Exercise 15 — Tasks
+/** This database is getting too big, lets remove all movies that were released before 2005.
+* Andrew Stanton has also left the studio, so please remove all movies directed by him.
+**/
+
+1.
+DELETE FROM Movies WHERE Year < 2005;
+
+2.
+DELETE FROM Movies WHERE Director = 'Andrew Stanton';
+
+//---------------------------------------------------------//
+CREATING  TABLES
+//Create table statement w/ optional table constraint and default value
+CREATE TABLE IF NOT EXISTS mytable (
+    column DataType TableConstraint DEFAULT default_value,
+    another_column DataType TableConstraint DEFAULT default_value,
+    …
+);
+
+// EXAMPLE :
+//Movies table schema
+CREATE TABLE movies (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    director TEXT,
+    year INTEGER, 
+    length_minutes INTEGER
+);
+
+// Exercise 16 — Tasks
+/** Create a new table named Database with the following columns:
+* – Name A string (text) describing the name of the database
+* – Version A number (floating point) of the latest version of this database
+* – Download_count An integer count of the number of times this database was downloaded
+**/ This table has no constraints.
+
+CREATE TABLE IF NOT EXISTS Database (
+	Id INTEGER PRIMARY KEY,
+	Name TEXT,
+	Version FLOAT,
+	Download_count INTEGER
+);

@@ -1,4 +1,4 @@
-package com.greenfox.springstart.Contorller;
+package com.greenfox.springstart.Controller;
 
 public class Greeting {
     Long id;

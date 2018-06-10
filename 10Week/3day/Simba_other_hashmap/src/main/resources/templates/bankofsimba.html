@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf Exercise #</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <meta charset="utf-8"/>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th {
+            background-color: lightgrey;
+        }
+        td, th {
+            border: groove;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<p th:utext="${html}"></p>
+<p th:text="${html}"></p>
+
+<table>
+    <tr>
+        <th>Index</th>
+        <th>Name</th>
+        <th>Balance</th>
+        <th>Animal Type</th>
+        <th>Is a King</th>
+        <th>God or Bad</th>
+    </tr>
+    <tr th:each="account : ${accounts}">
+        <td style="color: brown; background-color: lavenderblush;" th:text="${accounts.indexOf(account)}"></td>
+        <td style="background-color: darkseagreen;" th:text="${account.name}"></td>
+        <td style="background-color: darkkhaki;" th:text="${#numbers.formatDecimal(account.balance, 4, 2, 'POINT')} + ' ' + ${account.currency}"></td>
+        <td style="background-color: skyblue;" th:text="${account.animalType}"></td>
+        <td style="background-color: gold; font-weight:bold" th:if="${account.isKing()} == true" th:text="'King'"></td>
+        <td style="background-color: lemonchiffon;" th:unless="${account.isKing()} == true" th:text="' '"></td>
+        <td style="background-color: chartreuse; font-weight:bold" th:if="${account.isGodOne()} == true" th:text="'God One!'"></td>
+        <td style="background-color:tan;" th:unless="${account.isGodOne()} == true" th:text="'Bad Guy!'"></td>
+    </tr>
+
+</table>
+
+<form action='#' th:object="${selectedAccount}" method='POST'>
+    <table>
+        <tr>
+            <td>Select name:</td>
+            <td>
+                <select th:field="*{name}">
+                    <option value=""> -- </option>
+                    <option th:each="account : ${accounts}"
+                            th:value="${account.name}"
+                            th:utext="${account.name}"/>
+                </select>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td><input name="Rise credit" type="submit" value="submit" /></td>
+        </tr>
+    </table>
+</form>
+<a href="/newAccount">Add new account</a>
+</body>
+</html>

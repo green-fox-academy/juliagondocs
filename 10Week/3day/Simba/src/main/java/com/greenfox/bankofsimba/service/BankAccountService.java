@@ -4,14 +4,25 @@ import com.greenfox.bankofsimba.modell.BankAccount;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class BankAccountService implements BankService {
 
+    public BankAccountService() {
+        createAccount();
+    }
+
+    @Override
+    public void createAccount() {
+        createSimba();
+        createZebra();
+        createTimon();
+        createPumba();
+        createZazu();
+        createMufasa();
+    }
 
     private ArrayList<BankAccount> bankAccounts = new ArrayList<>();
-
 
     @Override
     public void add(BankAccount bankAccount) {
@@ -61,6 +72,11 @@ public class BankAccountService implements BankService {
         BankAccount mufasa = new BankAccount("Mufasa", 1000.0, "LION");
         mufasa.setEvil("N");
         bankAccounts.add(mufasa);
+    }
+
+    public void saveNewAccount(String name, Double balance, String animalType) {
+        BankAccount account = new BankAccount(name, balance, animalType);
+        bankAccounts.add(account);
     }
 
 }

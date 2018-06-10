@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class WebController {
 
-    private final
-    BankService bankService;
+    private final BankService bankService;
 
     @Autowired
     public WebController(BankService bankService) {
@@ -38,17 +37,16 @@ public class WebController {
 
     @GetMapping("/accounts")
     public String getAllAccount(Model thymeLeafModel) {
-        bankService.createSimba();
-        bankService.createZebra();
-        bankService.createTimon();
-        bankService.createPumba();
-        bankService.createZazu();
-        bankService.createMufasa();
         thymeLeafModel.addAttribute("accounts", bankService.getAllAccount());
         thymeLeafModel.addAttribute("selectedaccount", new BankAccount());
         return "bankaccount";
     }
 
+    @GetMapping("/newaccount")
+    public String getNewAccount(Model model) {
+        model.addAttribute("newAccount", new BankAccount());
+        return "newaccount";
+    }
 
     @PostMapping("/accounts")
     public String modifySelectedElement(@ModelAttribute BankAccount selectedAccount,Model model) {
@@ -58,6 +56,23 @@ public class WebController {
             }
         }
         model.addAttribute("accounts", bankService.getAllAccount());
+        return "redirect:/accounts";
+    }
+
+     //@PostMapping("/accounts") //azután hogy csinaltam valamit (ettől lesz post) atadok ket valtozot
+     //public String login(@ModelAttribute(value = "name") String name,
+     //                   @ModelAttribute(value = "balance") Double balance,
+     //                   @ModelAttribute(value = "balance") String type,Model model) {
+     //   bankService.saveNewAccount(name, balance,type);
+     //   model.addAttribute("accounts", bankService.getAllAccount());
+     //   return "redirect:/accounts" ; // utana atiranyit ide
+     //}
+
+    @PostMapping("/newaccount")
+    public String addNewAccount(@ModelAttribute(value = "name") String name,
+                               @ModelAttribute(value = "balance") Double balance,
+                                @ModelAttribute(value = "animalType") String animalType) {
+        bankService.add(new BankAccount(name,balance,animalType));
         return "redirect:/accounts";
     }
 }

@@ -17,6 +17,7 @@ public interface BankService {
     void createPumba();
     void createZazu();
     void createMufasa();
-
+    void createAccount();
     String getSimbasFeatures();
+    public void saveNewAccount(String name, Double balance, String animalType);
 }

@@ -36,7 +36,7 @@
     </tr>
 </table>
 
-<form action="#" th:object="${selectedaccount}" th:action="@{'/accounts'}" method="post">
+<form action="#" th:object="${selectedaccount}"  method="post">
     <button type="submit" value="Loan" >Loan</button>
     <select th:field="*{name}">
         <option th:each="account: ${accounts}"
@@ -44,5 +44,26 @@
                 th:text="${account.name}" />
     </select>
 </form>
+<!--
+<form action="#" th:action="@{/account}" method="post">
+    <div>
+        <label for="name"> Name:</label>
+        <input type="text" id="name" name="name" />
+    </div>
+    <div>
+        <label for="balance">Balance:</label>
+        <input type="text" id="balance" name="balance" />
+    </div>
+    <div>
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type" />
+    </div>
+    <div>
+        <input type="submit" value="Save new account">
+    </div>
+</form>
+-->
+
+<a href="/newaccount">Add new account</a>
 </body>
 </html>

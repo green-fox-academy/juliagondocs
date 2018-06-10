@@ -1,0 +1,36 @@
+Adatbázis: adatok sorokban
+JPA: csinál az SQL adatbázisból egy objektumot -> lekérés után átalakul
+
+************************************************************
+JPA:              data layer -> Crud Repository ( ekkor jelölni kell, h @Repository)
+
+Repository Layer: adatázissal való kommunikáció; itt már mondhatom, hogy getAll vagy getAnimalByName --> extends Crud repository
+		  itt lehet több adatbázist is bekötni
+                  JPQL --> ez fordítja át SQL parancssá a 
+                  itt már objektumok vannak, amit a data layer átalakított sima sorokból álló adatbázisból
+
+Service Layer:    itt minden olyan történik, ami adattal kommunikál, nem biztos, h adatbázissal vagy JPA-val, bármivel,
+                  tranzakciók, másik backenddel kommunikáció; adatforgalom
+                  itt tortént egy repository autoWire annotáció, ez kell ha van külsõ adatbázisom
+                  backend, tranzakciók, itt minden ami nem repository (Entitás lesz, az adatbázisban egy sor)
+
+                  @AutoWired 
+                  AnimalRepository animalRepository(); --> innentõl mehet animalRepository.getAll()
+
+                  @AutoWired
+                  PlantRepository plantRepository();  --> másik adatbázisból is lehet, 
+                                                          ekkor ennek az adatbázisnak is kell egy interface repository osztály
+
+		  Logikailag összetratozó dolgokat kell egy package-be tenni, a bussiness logic-nal is
+
+Controller:       megjelenítés, endpointok
+                  @RequestMapping(value = "endpoint") --> o alapjáraton get, 
+		  @GraphQL -> REST vetélytársa 
+
+
+Web Layer:        ide töltjük be a html-t itt lesz a megjelenítés
+
+**************************-
+Modell: @Entity -->legkisebb olyan adatstruktúra, ami a legjobban illeszkedik az adatbázisom valamilyéhez
+        ebben lesz ez akkor kell, amikor adat-> obj és visszakonvertálás történik
+	a modell a repoban kell

@@ -1,0 +1,63 @@
+package com.greenfox.bankofsimba.controllers;
+
+
+import com.greenfox.bankofsimba.modell.BankAccount;
+import com.greenfox.bankofsimba.service.BankAccountService;
+import com.greenfox.bankofsimba.service.BankService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+
+@Controller
+public class WebController {
+
+    private final
+    BankService bankService;
+
+    @Autowired
+    public WebController(BankService bankService) {
+        this.bankService = bankService;
+    }
+
+
+    @GetMapping("/show")
+    @ResponseBody
+    public String getAllAccount() {
+        bankService.createSimba();
+        return bankService.getSimbasFeatures();
+    }
+
+    @GetMapping("/msg")
+    public String message(Model model) {
+        String msg = "This is an <em>HTML</em> text. <b>Enjoy yourself!</b>";
+        model.addAttribute("string", msg);
+        return "bankaccount";
+    }
+
+    @GetMapping("/accounts")
+    public String getAllAccount(Model thymeLeafModel) {
+        bankService.createSimba();
+        bankService.createZebra();
+        bankService.createTimon();
+        bankService.createPumba();
+        bankService.createZazu();
+        bankService.createMufasa();
+        thymeLeafModel.addAttribute("accounts", bankService.getAllAccount());
+        thymeLeafModel.addAttribute("selectedaccount", new BankAccount());
+        return "bankaccount";
+    }
+
+
+    @PostMapping("/accounts")
+    public String modifySelectedElement(@ModelAttribute BankAccount selectedAccount,Model model) {
+        for (BankAccount account : bankService.getAllAccount()) {
+            if (account.getName().equals(selectedAccount.getName())) {
+                account.addToBalance();
+            }
+        }
+        model.addAttribute("accounts", bankService.getAllAccount());
+        return "redirect:/accounts";
+    }
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Accounts</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<p th:text="${string}"/> </p>
+<p th:utext="${string}"/> </p>
+
+
+<table style="width:50%; height:300px; font-size: large">
+    <tr style="background-color:darkgreen">
+        <th>ID</th>
+        <th>ID WITH Thymeleaf</th>
+        <th>NAME</th>
+        <th>BALANCE</th>
+        <th>BALANCE WITH TWO DECIMAL</th>
+        <th>TYPE</th>
+        <th>KING</th>
+        <th>isEVIL?</th>
+    </tr>
+    <tr th:each="currentAccount : ${accounts}" style="background-color:greenyellow" align="center">
+        <td th:text="${currentAccount.id}"></td>
+        <td style="color:oldlace" th:text="${currentAccountStat.count}" />
+        <td th:text="${currentAccount.name}"></td>
+        <td th:text="${currentAccount.balance}"></td>
+        <td th:text="${#numbers.formatDecimal(currentAccount.balance, 4, 2, 'POINT')} " />
+        <td th:text="${currentAccount.animalType}"></td>
+        <td style="background-color:lightgreen; font-weight:bold" th:if="${currentAccount.king} == true" th:text="'King'" />
+        <td th:unless="${currentAccount.king} == true" th:text="' '" />
+        <td th:switch="${currentAccount.evil}">
+            <span th:case="'Y'" th:text="'Good Guy'" />
+            <span style="color:crimson; font-weight:bold;" th:case="'N'" th:text="'Bad Guy'" />
+        </td>
+    </tr>
+</table>
+
+<form action="#" th:object="${selectedaccount}" th:action="@{'/accounts'}" method="post">
+    <button type="submit" value="Loan" >Loan</button>
+    <select th:field="*{name}">
+        <option th:each="account: ${accounts}"
+                th:value="${account.name}"
+                th:text="${account.name}" />
+    </select>
+</form>
+</body>
+</html>

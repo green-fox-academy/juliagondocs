@@ -1,0 +1,115 @@
+
+Homepage
+Go to the profile of Tom Gardiner
+Tom Gardiner
+Founder @ Trevor.io. Formerly Co-founder and CTO @ RefME. Background in High Performance Computing and Artificial Intelligence.
+Apr 4, 2016
+Thymeleaf with Spring MVC (rapid introduction to the essentials)
+Thymeleaf has quickly become the de-facto server-side (HTML) template engine for Spring MVC. It has a wealth of features, extensions, bells and whistles. However, to get started, you only really need to know a few bits and pieces.
+
+I will provide a rapid introduction to those here.
+
+Adding Thymeleaf to your project
+Note: I assume you are using Spring Boot with Gradle as your build tool. If you are not, you may need to perform a few additional steps, but the key takeaways here will still apply.
+Adding Thymeleaf is as simple as adding it to your build.gradle file:
+
+compile('org.springframework.boot:spring-boot-starter-thymeleaf:1.3.1.RELEASE')
+and for the purpose of demonstrating functionality, we will also add the Twitter Bootstrap webjar:
+
+compile('org.webjars:bootstrap:3.3.6')
+Great! You now have Thymeleaf as your server-side HTML template engine. Let’s get started.
+
+Thymeleaf automatically picks up your template files from your resources/templates directory:
+
+
+so make sure to put all your templates in here. Just name them whatever.html. Thymeleaf templates are also valid html files.
+
+You will want to turn off the Thymeleaf cache during development; as otherwise you will regularly be looking at stale versions of the templates.
+
+This can easily be configured in your application.properties file:
+
+spring.thymeleaf.cache=false
+Creating a default layout template
+We’ll start by creating a default layout template that will provide a standard structure for all our pages.
+
+This is often good practice, as it means we don’t have to redefine the boilerplate layout again and again in each new page we create. We just focus on the content that is unique to that page. This default layout template will import all the standard CSS and javascript resources that we always want access to; and if this set changes in the future (e.g. we want to add google analytics code to every page) we only have to add it in one place.
+
+We will name our default layout template default.html and add it to our resources/templates directory.
+
+Here is its content:
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Default title for my pages</title>
+
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.6/css/bootstrap-theme.min.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6" layout:fragment="content">
+            Page content goes here
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<th:block layout:fragment="scripts"></th:block>
+</body>
+</html>
+As you can see from the content of our body tag, we have used bootstrap to define a very basic structure for our website, made up of 3 columns, where only the middle column contains any content. This gives us a basic centred look with space left and right of our content.
+
+A few things you should notice:
+
+The Thymeleaf namespaces (th and layout) have been defined at the top of the template. These are important, as we will be using them throughout.
+We have given the page a default title (“Default title for my pages”). This isn’t actually necessary as long as you override it in all your pages, but having one here can be useful in case many of your pages want to use the default title.
+By including Twitter Bootstrap in our gradle file earlier, the bootstrap resources are automatically made available in the /webjars/ folder. We then include them here so that they are available in all our pages.
+At the bottom of the page we have included our javascript files. The first two are the bootstrap and jquery (both in the webjars folder). The third is a fragment for our own needs. We will use this later to add custom javascript files to our pages.
+Finally, notice that the middle column in our layout is also a fragment called “content”. This is the fragment we will provide the content for in each of our pages, in order to populate that middle column with unique content for that page.
+Hello World page
+Right, we’re ready to create our first page.
+
+Let’s call it hello.html and again put it in the resources/templates directory. It will look as follows:
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="default">
+<head>
+    <title>Hello world page</title>
+    <link rel="stylesheet" href="/css/hello.css"/>
+</head>
+<body>
+<!--<div layout:fragment="content">
+    <span th:if="${resources.size() == 0}">No resources found.</span>
+    <div class="list-group">
+        <a th:each="resource : ${resources}"
+           th:href="${resource.url}" class="list-group-item">
+            <b th:text="${resource.name}"></b>
+        </a>
+    </div>
+</div>
+-->
+<div layout:fragment="content">
+    <form th:method="POST" th:action="${action}">
+        <div class="form-group">
+            <label>Name:</label>
+            <input class="form-control" name="name">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>
+</body>
+<th:block layout:fragment="scripts">
+    <script src="/js/hello.js"></script>
+</th:block>
+</html>

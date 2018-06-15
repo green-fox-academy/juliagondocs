@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Useful Links</title>
+</head>
+<body>
+<h1>Useful Links</h1>
+
+<h3 th:text="|The current user count currently is:  ${number}"></h3>
+<ul>
+    <div><list><a th:href="@{'/gfa/list'}"> Students List</a></list></div>
+    <div><list><a th:href="@{'/gfa/add'}">Add Student</a></list></div>
+    <div><list><a th:href="@{'/gfa/checker'}">Student Checker</a></list></div>
+
+</ul>
+
+</body>
+</html>

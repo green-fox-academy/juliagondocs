@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>To do list</title>
+</head>
+<body>
+<h1>To do list</h1>
+<ul th:each="currentToDo : ${todos}" >
+    <div>
+        <li th:text="${currentToDo.id}  +' , '+ ${currentToDo.title} +' , '+ ${currentToDo.urgent} +' , '+ ${currentToDo.done}"> </li>
+    </div>
+
+</ul>
+
+</body>
+</html>

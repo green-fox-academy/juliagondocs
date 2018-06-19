@@ -1,14 +1,11 @@
 package com.greenfox.bankofsimba.controllers;
 
-
 import com.greenfox.bankofsimba.modell.BankAccount;
-import com.greenfox.bankofsimba.service.BankAccountService;
 import com.greenfox.bankofsimba.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 
 @Controller
 public class WebController {
@@ -59,14 +56,6 @@ public class WebController {
         return "redirect:/accounts";
     }
 
-     //@PostMapping("/accounts") //azután hogy csinaltam valamit (ettől lesz post) atadok ket valtozot
-     //public String login(@ModelAttribute(value = "name") String name,
-     //                   @ModelAttribute(value = "balance") Double balance,
-     //                   @ModelAttribute(value = "balance") String type,Model model) {
-     //   bankService.saveNewAccount(name, balance,type);
-     //   model.addAttribute("accounts", bankService.getAllAccount());
-     //   return "redirect:/accounts" ; // utana atiranyit ide
-     //}
 
     @PostMapping("/newaccount")
     public String addNewAccount(@ModelAttribute(value = "name") String name,

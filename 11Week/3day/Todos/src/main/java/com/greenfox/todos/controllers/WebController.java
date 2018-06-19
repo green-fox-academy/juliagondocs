@@ -2,6 +2,7 @@ package com.greenfox.todos.controllers;
 
 import com.greenfox.todos.model.Todo;
 import com.greenfox.todos.repositories.ToDoRepository;
+import com.greenfox.todos.services.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class WebController {
 
     private final ToDoRepository repo;
+    private final ToDoService service;
 
     @Autowired
-    public WebController (ToDoRepository repo) {
+    public WebController (ToDoRepository repo, ToDoService service) {
         this.repo=repo;
+        this.service=service;
     }
 
     //@GetMapping(value={"/","/list"})

@@ -1,9 +1,8 @@
 package com.greenfox.posts.domain;
 
+import org.springframework.stereotype.Repository;
 
-import org.springframework.data.repository.CrudRepository;
-
+@Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
 
-    Post findOne(long id);
 }

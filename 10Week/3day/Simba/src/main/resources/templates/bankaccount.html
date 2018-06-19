@@ -9,8 +9,8 @@
 <p th:utext="${string}"/> </p>
 
 
-<table style="width:50%; height:300px; font-size: large">
-    <tr style="background-color:darkgreen">
+<table style="width:50%; height:300px; font-size: large" >
+    <tr style="background-color:darkgreen; color:oldlace">
         <th>ID</th>
         <th>ID WITH Thymeleaf</th>
         <th>NAME</th>
@@ -22,7 +22,7 @@
     </tr>
     <tr th:each="currentAccount : ${accounts}" style="background-color:greenyellow" align="center">
         <td th:text="${currentAccount.id}"></td>
-        <td style="color:oldlace" th:text="${currentAccountStat.count}" />
+        <td style="color:black" th:text="${currentAccountStat.count}" />
         <td th:text="${currentAccount.name}"></td>
         <td th:text="${currentAccount.balance}"></td>
         <td th:text="${#numbers.formatDecimal(currentAccount.balance, 4, 2, 'POINT')} " />
@@ -44,26 +44,6 @@
                 th:text="${account.name}" />
     </select>
 </form>
-<!--
-<form action="#" th:action="@{/account}" method="post">
-    <div>
-        <label for="name"> Name:</label>
-        <input type="text" id="name" name="name" />
-    </div>
-    <div>
-        <label for="balance">Balance:</label>
-        <input type="text" id="balance" name="balance" />
-    </div>
-    <div>
-        <label for="type">Type:</label>
-        <input type="text" id="type" name="type" />
-    </div>
-    <div>
-        <input type="submit" value="Save new account">
-    </div>
-</form>
--->
-
 <a href="/newaccount">Add new account</a>
 </body>
 </html>

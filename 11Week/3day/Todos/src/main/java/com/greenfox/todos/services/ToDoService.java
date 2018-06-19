@@ -10,11 +10,24 @@ import java.util.List;
 
 @Service
 public class ToDoService {
-
-    @Autowired
     private ToDoRepository repo;
 
+    @Autowired
+    public ToDoService(ToDoRepository repo) {
+        this.repo = repo;
+    }
+
     private List<Todo> todos = new ArrayList<>();
+
+    public ToDoService() {
+        createToDo();
+    }
+
+    private void createToDo() {
+        todos.add(new Todo("buy milk", true, false));
+        todos.add(new Todo("cleaning", true, false));
+        todos.add(new Todo("learning H2", true, false));
+    }
 
     public List<Todo> findAll() {
         return todos;

@@ -44,7 +44,7 @@ public class WebController {
     }
 
     @PostMapping(value = "gfa/checker")
-    public String isStudentIn(@RequestParam(value="name") String name, Model model){
+    public String isStudentIn(@ModelAttribute(value="name") String name, Model model){
         model.addAttribute("name",studentservice.checkStudent(name));
         return "checker";
     }

@@ -78,13 +78,21 @@ public class WebController {
     @PostMapping(value = "/update")
     public ModelAndView update(@RequestParam("title") String title,
                                @RequestParam("id") Long id,
-                               @RequestParam("done") boolean done,
-                               @RequestParam("urgent") boolean urgent) {
+                               @RequestParam(value="done",required=false) boolean done,
+                               @RequestParam(value ="urgent",required=false) boolean urgent) {
         Todo todo = repo.findById(id).get();
         todo.setTitle(title);
-        //System.out.println(urgent+" "+ done);
-        //todo.setDone(done);
-        //todo.setUrgent(urgent);
+        if(done == true) {
+            todo.setDone(done);
+        } else {
+            todo.setDone(false);
+        }
+
+        if (urgent == true) {
+            todo.setUrgent(urgent);
+        } else {
+            todo.setUrgent(false);
+        }
         repo.save(todo);
         return new ModelAndView("redirect:/todo/list");
     }

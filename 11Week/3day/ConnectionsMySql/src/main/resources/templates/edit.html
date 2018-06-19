@@ -9,7 +9,7 @@
 <form method="post" action="/todo/update" >
     <p> Title: <input type="text" name="title" th:field="${todo.title}" /> </p>
     <p>        <input type="hidden" name="id" th:field="${todo.id}"/>      </p>
-    <p> Done:  <input type="checkbox" name="done" th:field="*{todo.done}"  />   </p>
+    <p> Done:  <input type="checkbox" name="done" th:field="*{todo.done}"  th:checked="${todo.isPresent()}" />   </p>
     <p> Urgent:  <input type="checkbox" name="urgent" th:field="*{todo.urgent}"  />   </p>
     <button type="submit" id="submit" >Submit</button>
     <div><a th:href="@{'/todo/list'}" th:text="cancel" > </a></div>

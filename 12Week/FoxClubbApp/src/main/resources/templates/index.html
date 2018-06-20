@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fox Club</title>
+</head>
+<body>
+<p>  <a href="localhost:8080">Information</a>  </p>
+<p>  <a href="nutritionStore">Nutrition Store</a>  </p>
+<p>  <a href="trick">Trick Center</a>  </p>
+<p>  <a href="history">Action History</a>  </p>
+
+<img src="/greenfox.png" alt="Fox" />
+<p th:text="'This is ' + ${currentFox.getName()} + ' living on ' + ${currentFox.getFood()}
++ ' and ' + ${currentFox.getDrink()} + '. He knows ' + ${currentFox.getTricks().size()} + ' tricks.'"></p>
+<h2>Known Tricks</h2>
+<ul>
+
+</ul>
+<h2>Action History</h2>
+
+
+</body>
+</html>

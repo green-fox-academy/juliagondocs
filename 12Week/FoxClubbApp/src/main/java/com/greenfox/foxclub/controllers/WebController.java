@@ -5,6 +5,7 @@ package com.greenfox.foxclub.controllers;
 import com.greenfox.foxclub.models.Drink;
 import com.greenfox.foxclub.models.Food;
 import com.greenfox.foxclub.models.Fox;
+import com.greenfox.foxclub.models.Tricks;
 import com.greenfox.foxclub.services.FoxListImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @Controller
@@ -52,10 +57,34 @@ public class WebController {
     @PostMapping("/nutritionStore")
     public String postNutPage(@ModelAttribute(value = "foods") String food,
                               @ModelAttribute(value = "drinks") String drink) {
-        System.out.println(drink + " " + food );
-        //foxie.setDrink("water");
-        //foxie.setFood("salad");
-        return  "redirect:/";
+
+        foxie.setDrink("water");
+        foxie.setFood("salad");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        foxie.addAction(drink + " " + food +  " eated at " + dateFormat.format(date));
+
+        return  "redirect:/?name=" + foxie.getName();
     }
 
+    @GetMapping("/trickStore")
+    public String trickStore(Model model) {
+        model.addAttribute("tricks",Tricks.values() );
+        return "trickstore";
+    }
+
+    @PostMapping("/trickStore")
+    public String postNutPage(@ModelAttribute(value = "tricks") String trick) {
+        foxie.addTrick(trick);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        foxie.addAction(trick + " learned at " + dateFormat.format(date) );
+        return  "redirect:/?name=" + foxie.getName();
+    }
+
+    @GetMapping("/actionHistory")
+    public String actionHist(Model model) {
+    model.addAttribute("currentFox",foxie);
+        return "actions";
+    }
 }

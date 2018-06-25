@@ -1,4 +1,5 @@
 package com.greenfox.msql.controllers;
+
 import com.greenfox.msql.model.Todo;
 import com.greenfox.msql.repositories.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class WebController {
     private final TodoRepository repo;
 
     @Autowired
-    public WebController (TodoRepository repo) {
-        this.repo=repo;
+    public WebController(TodoRepository repo) {
+        this.repo = repo;
     }
 
     //@GetMapping(value={"/","/list"})
@@ -28,7 +29,7 @@ public class WebController {
     //    return "This is my first todo";
     //}
 
-    @GetMapping(value={"/","/list"})
+    @GetMapping(value = {"/", "/list"})
     public String listOfTodo(Model model) {
         //repo.save(new Todo("title",false,false));
         model.addAttribute("todos", repo.findAll());
@@ -57,11 +58,11 @@ public class WebController {
     public String addNewAccount(@ModelAttribute(value = "title") String title,
                                 @ModelAttribute(value = "urgent") Boolean urgent,
                                 @ModelAttribute(value = "done") Boolean done) {
-        repo.save(new Todo(title,urgent,done));
+        repo.save(new Todo(title, urgent, done));
         return "redirect:/todo/list";
     }
 
-    @GetMapping(value ="/list/{id}/delete")
+    @GetMapping(value = "/list/{id}/delete")
     public ModelAndView delete(@PathVariable long id) {
         repo.deleteById(id);
         return new ModelAndView("redirect:/todo/list");
@@ -78,21 +79,12 @@ public class WebController {
     @PostMapping(value = "/update")
     public ModelAndView update(@RequestParam("title") String title,
                                @RequestParam("id") Long id,
-                               @RequestParam(value="done",required=false) boolean done,
-                               @RequestParam(value ="urgent",required=false) boolean urgent) {
+                               @RequestParam(value = "done", required = false, defaultValue = "false") boolean done,
+                               @RequestParam(value = "urgent", required = false, defaultValue = "false") boolean urgent) {
         Todo todo = repo.findById(id).get();
         todo.setTitle(title);
-        if(done == true) {
-            todo.setDone(done);
-        } else {
-            todo.setDone(false);
-        }
-
-        if (urgent == true) {
-            todo.setUrgent(urgent);
-        } else {
-            todo.setUrgent(false);
-        }
+        todo.setDone(done);
+        todo.setUrgent(urgent);
         repo.save(todo);
         return new ModelAndView("redirect:/todo/list");
     }

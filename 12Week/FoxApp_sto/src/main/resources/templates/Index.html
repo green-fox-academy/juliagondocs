@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thymeleaf Exercise #</title>
+    <link rel="stylesheet" th:href="@{/style.css}" />
+    <meta charset="utf-8" />
+</head>
+<body>
+<ul>
+    <li>Information</li>
+</ul>
+<img th:src="${greenfox}" alt="Green fox">
+<p th:text="'This is ' + ${currentFox.getName()} + ' living on ' + ${currentFox.getFood()}
++ ' and ' + ${currentFox.getDrink()} + '. He knows ' + ${currentFox.getTricks().size()} + ' tricks.'"></p>
+<h2>Known Tricks</h2>
+<ul>
+    <li>Nothing</li>
+</ul>
+</body>
+</html>

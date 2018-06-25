@@ -1,31 +1,18 @@
-package com.greenfox.foxclub.models;
+package com.greenfox.foxes;
 
-
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class Fox {
+
     private String name;
     private List<String> tricks = new ArrayList<>();
     private String food;
     private String drink;
 
-    public List<String> getActions() {
-        return actions;
-    }
-
-    private List<String> actions = new ArrayList<>();
-
-    public Fox() {
-    }
-
-    public Fox(String name) {
-
-        this.name = name;
-    }
 
     public String getName() {
         return name;
@@ -61,9 +48,5 @@ public class Fox {
 
     public void addTrick(String trick) {
         tricks.add(trick);
-    }
-
-    public void addAction(String action) {
-        actions.add(action);
     }
 }

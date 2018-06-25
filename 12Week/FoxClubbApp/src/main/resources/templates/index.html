@@ -7,18 +7,23 @@
 <body>
 <p>  <a href="localhost:8080">Information</a>  </p>
 <p>  <a href="nutritionStore">Nutrition Store</a>  </p>
-<p>  <a href="trick">Trick Center</a>  </p>
-<p>  <a href="history">Action History</a>  </p>
+<p>  <a href="trickStore">Trick Center</a>  </p>
+<p>  <a href="actionHistory">Action History</a>  </p>
 
 <img src="/greenfox.png" alt="Fox" />
 <p th:text="'This is ' + ${currentFox.getName()} + ' living on ' + ${currentFox.getFood()}
 + ' and ' + ${currentFox.getDrink()} + '. He knows ' + ${currentFox.getTricks().size()} + ' tricks.'"></p>
 <h2>Known Tricks</h2>
-<ul>
 
+<p th:if="${currentFox.getTricks().size() == 0}">You know no tricks, yet. Go and learn some.</p>
+
+<ul th:unless="${currentFox.getTricks().size() == 0}" th:each="trick : ${currentFox.getTricks()}">
+    <li th:text="${trick}"></li>
 </ul>
 <h2>Action History</h2>
 
-
+<ul th:each="action : ${currentFox.getActions()}">
+    <li th:text="${action}"></li>
+</ul>
 </body>
 </html>

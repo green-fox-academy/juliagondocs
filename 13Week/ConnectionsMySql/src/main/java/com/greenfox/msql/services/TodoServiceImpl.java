@@ -53,7 +53,7 @@ public class TodoServiceImpl implements ToDoService {
     }
 
     public List<Todo> findTodosForOneAssignee(Long id) {
-        return findAll();
+        return repo.findAllByAssigneeId(id);
     }
 
 }

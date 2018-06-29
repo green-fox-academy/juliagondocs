@@ -46,8 +46,8 @@
         </td>
         <td th:text="${todo.addDate}"></td>
         <td th:text="${todo.deadLine}"></td>
-        <td th:if="${todo.assignee == null}" th:text="${todo.assignee}"></td>
-        <td th:unless="${todo.assignee == null}" th:text="${todo.assignee.getName()}"></td>
+        <td th:if="${todo.assignee == null}">  <a th:href="@{'/assignees/{id}/listoftasks'(id=${todo.id})}" th:text="${todo.assignee}"> </a> </td>
+        <td th:unless="${todo.assignee == null}"> <a th:href="@{'/assignees/{id}/listoftasks'(id=${todo.id})}" th:text="${todo.assignee.getName()}"> </a> </td>
 
     </tr>
 </table>

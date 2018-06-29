@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form method="post" action="/assignees/update" >
+    <p> Name: <input type="text" name="title" th:field="${assignees.name}" /> </p>
+    <p>        <input type="hidden" name="id" th:field="${assignees.id}"/>      </p>
+    <button type="submit" id="submit" >Submit</button>
+    <div><a th:href="@{'/assignees'}" th:text="cancel" > </a></div>
+</form>
+
+</body>
+</html>

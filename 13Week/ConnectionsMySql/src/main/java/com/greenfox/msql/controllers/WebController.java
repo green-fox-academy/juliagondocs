@@ -127,8 +127,8 @@ public class WebController {
                                @RequestParam(value = "urgent", required = false, defaultValue = "false") boolean urgent,
                                @RequestParam (value="assignees", required = false) String assigneeName) {
         Assignee assignee = servAssign.findByName(assigneeName);
-        System.out.println(assignee.getName());
         Todo todo = servTodo.findById(id);
+        todo.setAssignee(assignee);
         todo.setTitle(title);
         todo.setDone(done);
         todo.setUrgent(urgent);

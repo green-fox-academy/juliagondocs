@@ -17,7 +17,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Assignee {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String email;

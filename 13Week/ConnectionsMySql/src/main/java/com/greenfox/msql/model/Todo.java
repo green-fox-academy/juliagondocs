@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 @Entity
 public class Todo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private boolean urgent=false;
@@ -30,6 +27,18 @@ public class Todo {
     private String deadLine;
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy. MM dd HH:mm:ss");
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="assignee_id")
+    private Assignee assignee;
+
+    public Assignee getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Assignee assignee) {
+
+        this.assignee = assignee;
+    }
 
     public void setAddDate(String addDate) {
         this.addDate = addDate;
@@ -90,7 +99,7 @@ public class Todo {
         this.urgent = urgent;
         this.done = done;
         this.addDate=LocalDateTime.now().format(formatter);
-        this.deadLine= LocalDateTime.now().plusDays(1).format(formatter);
+        this.deadLine= LocalDateTime.now().plusDays((int) (Math.random() * ((30  + 1)))).format(formatter);
     }
 
 

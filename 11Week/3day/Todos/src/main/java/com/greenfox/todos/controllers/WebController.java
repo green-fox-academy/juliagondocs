@@ -21,7 +21,7 @@ public class WebController {
         this.service=service;
     }
 
-    //@GetMapping(value={"/","/list"})
+
     @GetMapping(value="/")
     @ResponseBody
     public String list() {

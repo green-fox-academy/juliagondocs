@@ -11,4 +11,5 @@ import java.util.List;
 public interface AssigneeRepository extends CrudRepository<Assignee,Long> {
     List<Assignee> findAll();
     Assignee findAssigneeById(Long id);
+    Assignee findAssigneeByName(String name);
 }

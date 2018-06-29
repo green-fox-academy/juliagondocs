@@ -13,6 +13,15 @@
     <p> Urgent:  <input type="checkbox" name="urgent" th:field="*{todo.urgent}"  />   </p>
     <button type="submit" id="submit" >Submit</button>
     <div><a th:href="@{'/list'}" th:text="cancel" > </a></div>
+<p>
+        <select name="assignees">
+            <option value="">Select Assignee for this todo!</option>
+            <option th:each="assignee : ${assignees}"
+                    th:text="${assignee.getName()}"
+                    th:value="${assignee.getName()}"></option>
+        </select>
+        <input type="submit" value="GO" />
+</p>
 </form>
 
 </body>

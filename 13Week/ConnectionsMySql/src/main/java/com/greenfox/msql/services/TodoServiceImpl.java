@@ -17,6 +17,14 @@ public class TodoServiceImpl implements ToDoService {
         this.repo=repo;
         repo.save(new Todo ("Learn HTML",true,true));
         repo.save(new Todo ("Learn python",true,true));
+        repo.save(new Todo("Start the day", true, true));
+        repo.save(new Todo("Finish H2 workshop1", true, true));
+        repo.save(new Todo("Finish JPA workshop2", true, true));
+        repo.save(new Todo("Create a CRUD project", true, true));
+        repo.save(new Todo("Learn Object Relational Mapping", true, false));
+        repo.save(new Todo("Play with MySQL database", true, false));
+        repo.save(new Todo("Lose temper", false, true));
+        repo.save(new Todo("Finally chill a bit", false, false));
     }
 
 
@@ -39,5 +47,10 @@ public class TodoServiceImpl implements ToDoService {
     public List<Todo> findByTitle(String title){
         return repo.findByTitleContaining(title);
     }
+
+    public List<Todo> findByDate(String date){
+        return repo.findByDeadLineContaining(date);
+    }
+
 
 }

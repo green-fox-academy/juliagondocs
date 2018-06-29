@@ -115,6 +115,7 @@ public class WebController {
     public String edit(@PathVariable long id,
                        Model model) {
         model.addAttribute("todo", servTodo.findById(id));
+        model.addAttribute("assignees", servAssign.findAll());
         return "edit";
     }
 
@@ -123,7 +124,10 @@ public class WebController {
     public ModelAndView update(@RequestParam("title") String title,
                                @RequestParam("id") Long id,
                                @RequestParam(value = "done", required = false, defaultValue = "false") boolean done,
-                               @RequestParam(value = "urgent", required = false, defaultValue = "false") boolean urgent) {
+                               @RequestParam(value = "urgent", required = false, defaultValue = "false") boolean urgent,
+                               @RequestParam (value="assignees", required = false) String assigneeName) {
+        Assignee assignee = servAssign.findByName(assigneeName);
+        System.out.println(assignee.getName());
         Todo todo = servTodo.findById(id);
         todo.setTitle(title);
         todo.setDone(done);
@@ -133,10 +137,16 @@ public class WebController {
     }
 
     @PostMapping("/search")
-    public String searchTodo(@ModelAttribute(value = "searchedassignee") String title,
+    public String searchTodo(@RequestParam(value = "searchedtask", required = false,defaultValue = "") String title,
+                             @RequestParam(value = "searcheddate",required = false,defaultValue = "") String date,
                              Model model) {
         boolean searchIsActive = true;
-        model.addAttribute("todos", servTodo.findByTitle(title));
+        if( !(title.length() == 0) ) {
+            model.addAttribute("todos", servTodo.findByTitle(title));
+        }
+        if(!(date.length() == 0)) {
+            model.addAttribute("todos", servTodo.findByDate(date));
+        }
         return "todolist"; // jobba lenne ha a listre menne vissza -> és a linkbe bekerülni a keresett elem
     }
 }

@@ -10,6 +10,7 @@ public interface ToDoService {
     void deleteById (Long id);
     Todo findById (Long id);
     List<Todo> findByTitle(String title);
+    List<Todo> findByDate(String date);
 
 
 }

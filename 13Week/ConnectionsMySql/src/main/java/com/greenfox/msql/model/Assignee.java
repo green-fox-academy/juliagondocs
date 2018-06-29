@@ -16,6 +16,12 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Assignee {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+    private String email;
+
     public Assignee() {
 
     }
@@ -44,12 +50,6 @@ public class Assignee {
     public String getEmail() {
         return email;
     }
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
-    private String name;
-    private String email;
 
     public Assignee(String name, String email) {
         this.name = name;

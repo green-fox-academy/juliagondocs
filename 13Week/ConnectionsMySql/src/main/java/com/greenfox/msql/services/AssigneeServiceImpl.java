@@ -35,4 +35,8 @@ public class AssigneeServiceImpl implements AssigneeService{
     public Assignee findById (Long id) {
         return repo.findAssigneeById(id);
     }
+
+    public Assignee findByName (String name) {
+        return repo.findAssigneeByName(name);
+    }
 }

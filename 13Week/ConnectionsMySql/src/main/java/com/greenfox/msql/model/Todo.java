@@ -9,13 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
+
 
 @Getter
 @Setter
@@ -24,7 +21,7 @@ import java.util.Date;
 @Entity
 public class Todo {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     private String title;
     private boolean urgent=false;

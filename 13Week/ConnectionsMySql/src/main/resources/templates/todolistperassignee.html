@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>To do list</title>
+</head>
+<body>
+<h1>To do list </h1>
+
+
+<table style="width:80%; height:300px; font-size: large" >
+    <tr style="background-color:darkgreen; color:oldlace">
+        <th>ID</th>
+        <th>Title</th>
+        <th>Done</th>
+        <th>Urgent</th>
+        <th>Delete</th>
+        <th>Update</th>
+        <th>Add Date</th>
+        <th>Deadline</th>
+        <th>Assignee</th>
+
+
+    </tr>
+    <tr th:each="todo : ${todos}" style="background-color:greenyellow" align="center">
+        <td th:text="${todo.id}"></td>
+        <td th:text="${todo.title}"></td>
+        <td th:text="${todo.done}"></td>
+        <td th:if="${todo.urgent} == true" th:text="${todo.urgent}"  style="color : red; " />
+        <td th:unless="${todo.urgent} == true" th:text="${todo.urgent}" style="color : green; " />
+        <td>
+            <a th:href="@{'/list/{id}/delete'(id=${todo.id})}" th:text="delete" > </a>
+        </td>
+        <td>
+            <a th:href="@{'/list/{id}/update'(id=${todo.id})}"  th:text="update" > </a>
+        </td>
+        <td th:text="${todo.addDate}"></td>
+        <td th:text="${todo.deadLine}"></td>
+        <td th:if="${todo.assignee == null}" th:text="${todo.assignee}"></td>
+        <td th:unless="${todo.assignee == null}" th:text="${todo.assignee.getName()}"></td>
+
+    </tr>
+</table>
+<p><a href="/assignees">List  of assignees </a></p>
+<p><a href="/list">List  of todos</a></p>
+</body>
+</html>

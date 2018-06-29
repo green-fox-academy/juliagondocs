@@ -87,6 +87,13 @@ public class WebController {
         return new ModelAndView("redirect:/assignees");
     }
 
+    @GetMapping(value ="assignees/{id}/listoftasks")
+    public String tasksForAssignees(@PathVariable long id,
+                                    Model model) {
+        model.addAttribute("assignee", servAssign.findById(id));
+        model.addAttribute("todos", servTodo.findTodosForOneAssignee(id));
+        return ("todolistperassignee"); ///?name=" + servAssign.findById(id).getName());
+    }
 
 
 

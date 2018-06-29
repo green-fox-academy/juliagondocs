@@ -17,9 +17,11 @@
         <th>Update</th>
 
     </tr>
-    <tr th:each="assignee : ${assignees}" style="background-color:greenyellow" align="center">
+    <tr th:each="assignee : ${assignees}" style="background-color:lightcyan" align="center">
         <td th:text="${assignee.getId()}"></td>
-        <td th:text="${assignee.getName()}"></td>
+        <td>
+            <a th:href="@{'assignees/{id}/listoftasks'(id=${assignee.id})}" th:text="${assignee.getName()}"> </a>
+        </td>
         <td th:text="${assignee.getEmail()}"></td>
         <td>
             <a th:href="@{'assignees/{id}/delete'(id=${assignee.id})}" th:text="delete" > </a>

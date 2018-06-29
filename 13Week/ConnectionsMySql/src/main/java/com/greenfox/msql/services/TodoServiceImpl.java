@@ -52,5 +52,8 @@ public class TodoServiceImpl implements ToDoService {
         return repo.findByDeadLineContaining(date);
     }
 
+    public List<Todo> findTodosForOneAssignee(Long id) {
+        return findAll();
+    }
 
 }

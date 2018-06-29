@@ -15,6 +15,7 @@ public interface TodoRepository extends CrudRepository<Todo, Long> {
     List<Todo> findByTitleContaining(String title);
 
     List<Todo> findByDeadLineContaining(String date);
+    List<Todo> findAllByAssigneeId(Long id);
 
 
 

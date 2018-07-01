@@ -1,5 +1,6 @@
 package com.greenfox.msql.repositories;
 
+import com.greenfox.msql.model.Assignee;
 import com.greenfox.msql.model.Todo;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -16,8 +17,6 @@ public interface TodoRepository extends CrudRepository<Todo, Long> {
 
     List<Todo> findByDeadLineContaining(String date);
     List<Todo> findAllByAssigneeId(Long id);
-
-
-
+    List<Todo> findAllByAssigneeName(String name);
 }
 

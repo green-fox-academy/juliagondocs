@@ -12,4 +12,5 @@ public interface ToDoService {
     List<Todo> findByTitle(String title);
     List<Todo> findByDate(String date);
     List<Todo> findTodosForOneAssignee( Long id);
+    List<Todo> findTodosByAssigneeName( String name);
 }

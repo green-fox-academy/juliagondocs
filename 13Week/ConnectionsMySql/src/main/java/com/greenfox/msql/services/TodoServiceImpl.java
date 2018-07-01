@@ -56,4 +56,5 @@ public class TodoServiceImpl implements ToDoService {
         return repo.findAllByAssigneeId(id);
     }
 
+    public List<Todo> findTodosByAssigneeName( String name){ return repo.findAllByAssigneeName(name);}
 }

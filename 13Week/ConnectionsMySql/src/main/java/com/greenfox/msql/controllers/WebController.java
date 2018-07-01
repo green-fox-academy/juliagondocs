@@ -95,6 +95,17 @@ public class WebController {
         return ("todolistperassignee"); ///?name=" + servAssign.findById(id).getName());
     }
 
+    @GetMapping(value ="assignees/{id}/listoftasksfromtodolist")
+    public String tasksForAssigneesFromTodoList(@PathVariable long id,
+                                    Model model) {
+        Todo todo = servTodo.findById(id);
+        Assignee assignee = todo.getAssignee();
+        System.out.println(assignee.getName());
+        model.addAttribute("assignee",assignee);
+        model.addAttribute("todos", servTodo.findTodosByAssigneeName(assignee.getName()));
+        return ("todolistperassignee"); ///?name=" + servAssign.findById(id).getName());
+    }
+
 
 
 

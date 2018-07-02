@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <   <title>Make new account</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<h1>Make registration!</h1>
+<p> Please add a username and password twice. </p>
+
+<form id="" action="/registration" method="post">
+    <div>
+        <p>Name: <input type="text" name="name" ></p>
+        <p>Name of your pet: <input type="text" name="petname" ></p>
+        <p>Password: <input type="text" name="pswd1" ></p>
+        <p>Password again: <input type="text" name="pswd2" ></p>
+        <button type="submit">GO</button>
+    </div>
+</form>
+<ul th:each="error : ${errors}">
+    <li th:text="${error}" style="color : red; ">   </li>
+</ul>
+
+</body>
+</html>

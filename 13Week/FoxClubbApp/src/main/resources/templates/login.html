@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <   <title>New Login Pet</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<h1>Welcome to Programmer Fox Club!</h1>
+<p> Please provide a username, so you can associate it to your pet. </p>
+
+<form id="" action="/login" method="post">
+    <div><label for="name">Name</label>
+        <input type="text" id="name" name="username"/>
+        <button type="submit">GO</button></div>
+</form>
+
+<p> Or make a <a href = "/registration" > registration</a> </p>
+
+</body>
+</html>

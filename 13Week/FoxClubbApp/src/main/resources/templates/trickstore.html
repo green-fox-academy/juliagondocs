@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title> Nutrition Store </title>
+</head>
+<body>
+
+<h1> Add super actions to your fox </h1>
+<form action="#" th:action="@{/trickStore}" method="post">
+    <select name="tricks">
+        <option value="">Select tricks for your fox!</option>
+        <option th:each="trick : ${tricks}"
+                th:text="${trick.getTrickName()}"
+                th:value="${trick.getTrickName()}"></option>
+    </select>
+    <input type="submit" value="GO" />
+</form>
+</body>
+</html>

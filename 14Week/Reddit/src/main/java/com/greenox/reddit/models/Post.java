@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.Instant;
 
 @Entity
 public class Post {
@@ -13,7 +14,7 @@ public class Post {
     private Long id;
     private String title;
     private String url;
-            //"timestamp": 1494339525,
+    private Instant timestamp;
     private Long score;
     private String owner;
     private String vote;
@@ -24,6 +25,11 @@ public class Post {
         this.score = score;
         this.owner = owner;
         this.vote = vote;
+        this.timestamp = Instant.now();
+    }
+
+    public Post() {
+
     }
 
     // SETTEREK ES GETTEREK
@@ -65,5 +71,13 @@ public class Post {
 
     public void setVote(String vote) {
         this.vote = vote;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
     }
 }

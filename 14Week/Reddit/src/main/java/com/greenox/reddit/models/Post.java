@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.Instant;
+import java.util.Date;
 
 @Entity
 public class Post {
@@ -14,8 +15,8 @@ public class Post {
     private Long id;
     private String title;
     private String url;
-    private Instant timestamp;
-    private Long score;
+    private Long timestamp = new Date().getTime() ;
+    private Long score = 0L ;
     private String owner;
     private String vote;
 
@@ -25,11 +26,15 @@ public class Post {
         this.score = score;
         this.owner = owner;
         this.vote = vote;
-        this.timestamp = Instant.now();
+        this.timestamp = new Date().getTime();
     }
 
     public Post() {
+    }
 
+    public Post(String title, String url) {
+        this.title = title;
+        this.url = url;
     }
 
     // SETTEREK ES GETTEREK
@@ -73,11 +78,11 @@ public class Post {
         this.vote = vote;
     }
 
-    public Instant getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 }

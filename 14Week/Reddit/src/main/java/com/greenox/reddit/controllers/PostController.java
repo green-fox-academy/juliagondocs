@@ -38,4 +38,10 @@ public class PostController {
         service.decreaseScore(service.getPostById(id));
         return service.findAll();
     }
+
+    @DeleteMapping("/posts/{id}")
+    public List<Post> delete(@PathVariable(name="id") Long id) {
+        service.deletePost(id);
+        return service.findAll();
+    }
 }

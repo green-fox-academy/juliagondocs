@@ -40,4 +40,8 @@ public class PostServiceImpl implements PostService {
         post.setScore(post.getScore()-1);
         repo.save(post);
     }
+
+    public void deletePost(Long id) {
+        repo.delete(repo.findPostById(id));
+    }
 }

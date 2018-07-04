@@ -2,7 +2,7 @@ package com.greenfox.foxclub.services;
 
 import com.greenfox.foxclub.models.Fox;
 import com.greenfox.foxclub.models.User;
-import com.greenfox.foxclub.repositories.FoxRepository;
+
 import com.greenfox.foxclub.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +58,13 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+    public void saveNewAccountWithFox(String name, String pswd1, Fox fox) {
+        User user = new User();
+        user.setName(name);
+        user.setPswd(pswd1);
+        user.setFox(fox);
+        repo.save(user);
     }
 }

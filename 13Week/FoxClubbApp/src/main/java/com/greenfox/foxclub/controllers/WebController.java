@@ -14,14 +14,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @Controller
 public class WebController {
 
     private final FoxServiceImpl foxservice;
     private final UserServiceImpl userservice;
-
-
 
     @Autowired
     public WebController(FoxServiceImpl foxservice, UserServiceImpl userservice) {
@@ -30,8 +32,10 @@ public class WebController {
     }
 
     @GetMapping("/")
-    public String mainPage( Model model) {
-        model.addAttribute("currentFox", foxservice.findByName("Fox"));
+    public String mainPage(Model model) {
+        System.out.println(foxservice.getCurrentFox().getName());
+        System.out.println(foxservice.getCurrentFox().getDrink());
+        model.addAttribute("currentFox", foxservice.getCurrentFox());
         return "index";
     }
 
@@ -52,16 +56,11 @@ public class WebController {
                                        @ModelAttribute(value = "pswd1") String pswd1,
                                        @ModelAttribute(value = "pswd2") String pswd2, Model model) {
         if (userservice.isValidRegistration(name, pswd1, pswd2)) {
-            userservice.saveNewAccount(name, pswd1);
-            foxservice.saveNewFox(petName);
-            System.out.println("Megkerestem a felhasználót:" + userservice.findByName(name).getName());
-            System.out.println("Megkerestem az elmentett Rókát: " + foxservice.findByName(petName).getName());
-            Fox currentfox = foxservice.findByName(petName);
-            userservice.findByName(name).setFox(currentfox);
+            foxservice.saveNewFox(petName); // elmentem a Foxom
+            userservice.saveNewAccountWithFox(name, pswd1, foxservice.findByName(petName));
             return "redirect:/login";
         } else {
             model.addAttribute("errors", userservice.whatIsWrongWithTheRegistration(name, pswd1, pswd2));
-            System.out.println("nem volt jo a regisztrácio");
             System.out.println(userservice.whatIsWrongWithTheRegistration(name, pswd1, pswd2).size());
             return "registration";
         }
@@ -70,8 +69,8 @@ public class WebController {
     @PostMapping(value = "/login")
     public String loggedInPage(@ModelAttribute(value = "username") String username) {
         if (userservice.isContainsUserName(username)) {
-            //Fox foxie = foxservice.findByName(userservice.findByName(username).getFox().getName());
-            Fox foxie = foxservice.findByName("Fox");
+            Fox foxie = foxservice.findByName(userservice.findByName(username).getFox().getName());
+            foxservice.setCurrentFox(foxie);
         } else {
             return "redirect:/login";
         }
@@ -85,16 +84,15 @@ public class WebController {
         return "nutrition";
     }
 
-    //@PostMapping("/nutritionStore")
-    //public String postNutPage(@ModelAttribute(value = "foods") String food,
-    //                          @ModelAttribute(value = "drinks") String drink) {
-    //    foxie.setDrink("water");
-    //    foxie.setFood("salad");
-    //    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    //    Date date = new Date();
-    //    foxie.addAction(drink + " " + food + " eated at " + dateFormat.format(date));
-    //    return "redirect:/?name=" + foxie.getName();
-    //}
+    @PostMapping("/nutritionStore")
+    public String postNutPage(@ModelAttribute(value = "foods") String food,
+                              @ModelAttribute(value = "drinks") String drink) {
+        foxservice.setNutritionsToFox(foxservice.getCurrentFox(),drink,food);
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        //Date date = new Date();
+        //foxservice.getCurrentFox().addAction(drink + " " + food + " eated at " + dateFormat.format(date));
+        return "redirect:/?name=" + foxservice.getCurrentFox().getName();
+    }
 
     @GetMapping("/trickStore")
     public String trickStore(Model model) {
@@ -102,14 +100,14 @@ public class WebController {
         return "trickstore";
     }
 
-    //@PostMapping("/trickStore")
-    //public String postNutPage(@ModelAttribute(value = "tricks") String trick) {
-    //    foxie.addTrick(trick);
-    //    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    //    Date date = new Date();
-    //    foxie.addAction(trick + " learned at " + dateFormat.format(date));
-    //    return "redirect:/?name=" + foxie.getName();
-    //}
+    @PostMapping("/trickStore")
+    public String postNutPage(@ModelAttribute(value = "tricks") String trick) {
+        foxservice.setTrickToFox(foxservice.getCurrentFox(),trick);
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        //Date date = new Date();
+        //    foxie.addAction(trick + " learned at " + dateFormat.format(date));
+        return "redirect:/?name=" + foxservice.getCurrentFox().getName();
+    }
 
     @GetMapping("/actionHistory")
     public String actionHist(Model model) {

@@ -13,9 +13,32 @@ public class Fox {
     private Long id;
     private String name;
     @ElementCollection
-    private List<Tricks> tricks ;
-    private String food;
+    private List<String> tricks ;
 
+    @ElementCollection
+    private List<String> actions ;
+
+    private String food;
+    private String drink;
+
+    public Fox() {
+    }
+
+    public List<String> getTricks() {
+        return tricks;
+    }
+
+    public void setTricks(List<String> tricks) {
+        this.tricks = tricks;
+    }
+
+    public List<String> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<String> actions) {
+        this.actions = actions;
+    }
 
     public String getFood() {
         return food;
@@ -33,16 +56,8 @@ public class Fox {
         this.drink = drink;
     }
 
-    private String drink;
-
-
-
-
     public Fox(String name) {
         this.name = name;
-    }
-
-    public Fox() {
     }
 
     public String getName() {
@@ -53,5 +68,8 @@ public class Fox {
         this.name = name;
     }
 
+    public void addTrick(String trick) {
+        tricks.add(trick);
+    }
 
 }

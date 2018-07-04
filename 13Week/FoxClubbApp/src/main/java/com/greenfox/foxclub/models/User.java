@@ -13,6 +13,15 @@ public class User {
     @OneToOne
     private Fox fox;
 
+    public User () {
+
+    }
+
+    public User(String name, String pswd) {
+        this.name = name;
+        this.pswd = pswd;
+    }
+
     public String getName() {
         return name;
     }

@@ -26,4 +26,18 @@ public class PostServiceImpl implements PostService {
     public void saveNewPost( Post post) {
         repo.save(post);
     }
+
+    public Post getPostById(Long id) {
+        return repo.findPostById(id);
+    }
+
+    public void increaseScore( Post post) {
+        post.setScore(post.getScore()+1);
+        repo.save(post);
+    }
+
+    public void decreaseScore( Post post) {
+        post.setScore(post.getScore()-1);
+        repo.save(post);
+    }
 }

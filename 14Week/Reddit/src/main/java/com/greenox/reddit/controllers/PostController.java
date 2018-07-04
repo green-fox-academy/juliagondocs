@@ -3,10 +3,7 @@ package com.greenox.reddit.controllers;
 import com.greenox.reddit.models.Post;
 import com.greenox.reddit.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +24,18 @@ public class PostController {
     @PostMapping("posts")
     public List<Post> addPost(@RequestBody Post postsToAdd){
         service.saveNewPost(postsToAdd);
+        return service.findAll();
+    }
+
+    @PutMapping("/posts/{id}/upvote")
+    public List<Post> upvote(@PathVariable(name="id") Long id) {
+        service.increaseScore(service.getPostById(id));
+        return service.findAll();
+    }
+
+    @PutMapping("/posts/{id}/downvote")
+    public List<Post> downvote(@PathVariable(name="id") Long id) {
+        service.decreaseScore(service.getPostById(id));
         return service.findAll();
     }
 }

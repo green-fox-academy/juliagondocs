@@ -18,8 +18,13 @@ public class Post {
     private String owner;
     private String vote;
 
-
-
+    public Post(String title, String url, Long score, String owner, String vote) {
+        this.title = title;
+        this.url = url;
+        this.score = score;
+        this.owner = owner;
+        this.vote = vote;
+    }
 
     // SETTEREK ES GETTEREK
     public String getTitle() {

@@ -15,9 +15,10 @@ public class PostServiceImpl implements PostService {
     @Autowired
     public PostServiceImpl ( PostRepository repo ) {
         this.repo=repo;
-        repo.save(new Post());
-        //repo.save(new Post("Series", "www.sorozatbarat.hu", 10243L, new User("Tóbi")));
-        //repo.save(new Post("Facebook", "www.fb.hu", 100243L, new User("Csabi")));
+        repo.save(new Post("Series", "www.sorozatbarat.hu"));
+        repo.save(new Post("Baby", "www.babyboom.hu"));
+        repo.save(new Post("Medical","orvos.hu"));
+        repo.save(new Post("Weather Forecast", "met.hu"));
     }
 
     public List<Post> findAll() {
@@ -44,5 +45,23 @@ public class PostServiceImpl implements PostService {
 
     public void deletePost(Long id) {
         repo.delete(repo.findPostById(id));
+    }
+
+    public void setUpDatabase(List<User> users) {
+        Post post = repo.findPostById(1L);
+        post.setOwner(users.get(1));
+        repo.save(post);
+
+        post = repo.findPostById(2L);
+        post.setOwner(users.get(1));
+        repo.save(post);
+
+        post = repo.findPostById(3L);
+        post.setOwner(users.get(2));
+        repo.save(post);
+
+        post = repo.findPostById(4L);
+        post.setOwner(users.get(3));
+        repo.save(post);
     }
 }

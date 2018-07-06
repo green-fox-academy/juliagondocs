@@ -14,9 +14,9 @@ public class User {
     @JoinColumn(name="user_id")
     private List<Post> postList;
 
-    @ManyToOne
-    @JoinColumn(name="vote_id")
-    private Vote vote;
+    //@ManyToOne
+    //@JoinColumn(name="vote_id")
+    //private Vote vote;
 
     public User() {
     }

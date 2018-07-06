@@ -44,4 +44,11 @@ public class PostServiceImpl implements PostService {
     public void deletePost(Long id) {
         repo.delete(repo.findPostById(id));
     }
+
+    public void updatePost(Post postToUpdate, Long id) {
+        Post post = repo.findPostById(id);
+        post.setTitle(postToUpdate.getTitle());
+        post.setUrl(postToUpdate.getUrl());
+        repo.save(post);
+    }
 }

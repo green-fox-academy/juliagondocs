@@ -13,4 +13,6 @@ public interface PostService {
     void decreaseScore(Post post);
 
     void deletePost(Long id);
+
+    void updatePost(Post postToUpdate,Long id);
 }

@@ -32,6 +32,7 @@ public class PostController {
 
     @PostMapping("posts")
     public List<Post> addPost(@RequestBody Post postsToAdd, @RequestHeader("username") String username) {
+        System.out.println(username);
         if ( username != null ) {
             if(userServ.findUserByName(username) != null ) { // find user in the database
                 User user = userServ.findUserByName(username);

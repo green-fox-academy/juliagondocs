@@ -1,5 +1,8 @@
 package com.greenfox.rest.models;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class InputArray {
 
     private int[] numbers;

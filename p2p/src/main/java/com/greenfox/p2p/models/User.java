@@ -15,6 +15,7 @@ public class User {
 
 
     public User() {
+        this.name="App";
     }
 
     public User(String name) {

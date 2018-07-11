@@ -15,6 +15,20 @@
     </div>
 </form>
 
+<ul th:each="message : ${messages}">
+    <li  style="color : green; ">
+         <p th:text="${message.user.getName()}" >   </p>
+         <p th:text="${message.getText()}" >   </p>
+    </li>
+</ul>
+
+<form id="" action="/" method="post">
+    <div>
+        <p> <input type="text" name="text"    />   </p>
+        <button type="submit">Send</button>
+    </div>
+</form>
+
 
 </body>
 </html>

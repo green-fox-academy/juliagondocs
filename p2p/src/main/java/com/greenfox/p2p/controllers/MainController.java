@@ -1,6 +1,7 @@
 package com.greenfox.p2p.controllers;
 
 import com.greenfox.p2p.models.User;
+import com.greenfox.p2p.services.MessageService;
 import com.greenfox.p2p.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MainController {
 
     private UserService userService;
+    private MessageService messageService;
 
     @Autowired
-    public MainController(UserService userService) {
+    public MainController(UserService userService, MessageService messageService) {
         this.userService = userService;
+        this.messageService = messageService;
     }
 
     @GetMapping("/register")
@@ -30,6 +33,7 @@ public class MainController {
         if (name.length() != 0) {
             if (userService.isValidRegistration(name) && userService.findAll().size() < 1) {
                 userService.saveNewUser(new User(name));
+                messageService.initMessage();
                 return "redirect:/";
             } else {
                 model.addAttribute("error", "select new username, this is taken");
@@ -44,6 +48,7 @@ public class MainController {
     @GetMapping("/")
     public String getMainPage(Model model) {
         model.addAttribute("user", userService.findById(1L));
+        model.addAttribute("messages",messageService.findAll());
         return "main";
     }
 

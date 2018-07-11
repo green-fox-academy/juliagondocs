@@ -20,19 +20,37 @@ public class MainController {
     }
 
     @GetMapping("/register")
-    public String getRegisterPage (){
+    public String getRegisterPage() {
         return "registration";
     }
 
     @PostMapping(value = "/register")
     public String validateRegistration(@ModelAttribute(value = "username") String name,
                                        Model model) {
-        if (userService.isValidRegistration(name)) {
-            userService.saveNewUser(new User(name));
-            return "redirect:/register";
+        if (name.length() != 0) {
+            if (userService.isValidRegistration(name) && userService.findAll().size() < 1) {
+                userService.saveNewUser(new User(name));
+                return "redirect:/";
+            } else {
+                model.addAttribute("error", "select new username, this is taken");
+                return "registration";
+            }
         } else {
-            model.addAttribute("error", "select new username, this is taken");
+            model.addAttribute("error", "The username field is empty");
             return "registration";
         }
+    }
+
+    @GetMapping("/")
+    public String getMainPage(Model model) {
+        model.addAttribute("user", userService.findById(1L));
+        return "main";
+    }
+
+    @PostMapping("/")
+    public String postMainPage(@ModelAttribute(value = "name") String name,
+                               Model model) {
+        userService.updateUser(name);
+        return "redirect:/";
     }
 }

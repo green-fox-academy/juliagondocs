@@ -45,6 +45,7 @@ public class PostController {
             }
         }
         return postServ.findAll();
+        
     }
 
     @PutMapping("/posts/{id}/upvote")

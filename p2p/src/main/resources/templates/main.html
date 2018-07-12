@@ -17,18 +17,18 @@
 
 <ul th:each="message : ${messages}">
     <li  style="color : green; ">
-         <p th:text="${message.user.getName()}" >   </p>
-         <p th:text="${message.getText()}" >   </p>
+         <p th:if="${message.getUser()} == null" > App </p>
+         <p th:unless="${message.getUser()} == null" th:text="${message.user.getName()}" >   </p>
     </li>
+    <p th:text="${message.getText()}" >   </p>
 </ul>
 
-<form id="" action="/" method="post">
+<form id="usrform" action="/" method="post" >
     <div>
-        <p> <input type="text" name="text"    />   </p>
+        <textarea name="message" form="usrform" rows="4" cols="50"> Type your message here...</textarea>
         <button type="submit">Send</button>
     </div>
 </form>
-
 
 </body>
 </html>

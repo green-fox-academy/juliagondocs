@@ -47,8 +47,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(String name) {
-        User user = repo.findUserById(1L);
-        user.setName(name);
-        repo.save(user);
+        if(name.length() >=1) {
+            User user = repo.findUserById(1L);
+            user.setName(name);
+            repo.save(user);
+        }
     }
 }

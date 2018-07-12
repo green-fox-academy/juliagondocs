@@ -1,6 +1,9 @@
 package com.greenfox.p2p.models;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 public class Message {
@@ -8,6 +11,7 @@ public class Message {
     @GeneratedValue
     private Long id;
     private String text;
+    private Date createdAt;
 
     @ManyToOne
     private User user;
@@ -37,10 +41,11 @@ public class Message {
     }
 
     public Message() {
+        this.createdAt= Calendar.getInstance().getTime();
     }
 
-    public Message(String text, User user) {
+    public Message(String text) {
         this.text = text;
-        this.user = user;
+        this.createdAt= Calendar.getInstance().getTime();
     }
 }

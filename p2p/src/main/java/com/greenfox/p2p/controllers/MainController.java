@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MainController {
@@ -54,8 +55,12 @@ public class MainController {
 
     @PostMapping("/")
     public String postMainPage(@ModelAttribute(value = "name") String name,
+                               @ModelAttribute(value = "message") String message,
                                Model model) {
-        userService.updateUser(name);
+        if(!userService.findById(1L).getName().equals(name)) {
+            userService.updateUser(name);
+        }
+        messageService.saveNewMessage(message,userService.findById(1L));
         return "redirect:/";
     }
 }

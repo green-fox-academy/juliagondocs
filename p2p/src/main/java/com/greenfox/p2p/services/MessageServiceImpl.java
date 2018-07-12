@@ -25,6 +25,16 @@ public class MessageServiceImpl implements MessageService {
     
     @Override
     public void initMessage() {
-        repo.save(new Message("Hi there! Submit your message using the send button!",new User()));
+        Message message = new Message("Hi there! Submit your message using the send button!");
+        repo.save(message);
+    }
+
+    @Override
+    public void saveNewMessage(String message, User user) {
+        if(message.length()>0) {
+            Message text = new Message(message);
+            text.setUser(user);
+            repo.save(text);
+        }
     }
 }

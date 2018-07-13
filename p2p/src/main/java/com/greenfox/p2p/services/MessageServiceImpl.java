@@ -37,4 +37,13 @@ public class MessageServiceImpl implements MessageService {
             repo.save(text);
         }
     }
+
+    @Override
+    public void saveNewMessage(String text, Long timeStamp, Long id) {
+        Message message = new Message();
+        message.setText(text);
+        message.setTimeStamp(timeStamp);
+        message.setId(id);
+        repo.save(message);
+    }
 }

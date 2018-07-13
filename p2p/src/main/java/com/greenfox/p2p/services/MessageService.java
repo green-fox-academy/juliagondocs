@@ -11,4 +11,5 @@ public interface MessageService {
     void initMessage();
 
     void saveNewMessage(String message, User byName);
+    void saveNewMessage(String text, Long timeStamp,Long id);
 }

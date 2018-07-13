@@ -6,12 +6,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
+//@SequenceGenerator(name="seq", initialValue=1000, allocationSize=1000000)
 public class Message {
     @Id
-    @GeneratedValue
+    @GeneratedValue//(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long id;
     private String text;
-    private Date createdAt;
+    private Date createdAt = Calendar.getInstance().getTime();
+    private Long timeStamp = new Date().getTime();
 
     @ManyToOne
     private User user;
@@ -42,10 +44,33 @@ public class Message {
 
     public Message() {
         this.createdAt= Calendar.getInstance().getTime();
+        //this.timeStamp= new Date().getTime();
     }
 
     public Message(String text) {
         this.text = text;
-        this.createdAt= Calendar.getInstance().getTime();
+    }
+
+    public Message(String text, Long id, User user, Long timeStamp) {
+        this.user=user;
+        this.timeStamp=timeStamp;
+        this.text=text;
+        this.id=id;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }
